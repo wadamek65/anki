@@ -1,6 +1,10 @@
 import fastapi
-import graphene
+import mongoengine
 import starlette.graphql
 
+from src import graphql
+
+mongoengine.connect(db='ll')
+
 app = fastapi.FastAPI()
-app.add_route('/', starlette.graphql.GraphQLApp(schema=graphene.Schema()))
+app.add_route('/', starlette.graphql.GraphQLApp(schema=graphql.SCHEMA))

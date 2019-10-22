@@ -10,9 +10,10 @@ fastapi = "*"
 uvicorn = "*"
 graphene = "*"
 mongoengine = "*"
+graphene-mongo = "*"
 
 [requires]
 python_version = "3.8"
 
 [scripts]
-dev = 'uvicorn server:app --reload'
+dev = 'uvicorn server:app --reload --port 6900'

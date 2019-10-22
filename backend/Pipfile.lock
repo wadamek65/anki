@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c17e03573fa9309f16a7a9640700936ccee52bf69c5a97aeb2229e15c0193590"
+            "sha256": "7cf5c6aa6ce52d572ab5791d651fbe389c0aada7bcd935410553efe312752d17"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -46,6 +46,13 @@
             "index": "pypi",
             "version": "==2.1.8"
         },
+        "graphene-mongo": {
+            "hashes": [
+                "sha256:292246cd963e2c7f6ed531d15658edf04f2b9f2b5ba9a1edf506b68b4aba7add"
+            ],
+            "index": "pypi",
+            "version": "==0.2.8"
+        },
         "graphql-core": {
             "hashes": [
                 "sha256:1488f2a5c2272dc9ba66e3042a6d1c30cea0db4c80bd1e911c6791ad6187d91b",
@@ -67,6 +74,14 @@
                 "sha256:f2b1ca39bfed357d1f19ac732913d5f9faa54a5062eca7d2ec3a916cfb7ae4c7"
             ],
             "version": "==0.8.1"
+        },
+        "iso8601": {
+            "hashes": [
+                "sha256:210e0134677cc0d02f6028087fee1df1e1d76d372ee1db0bf30bf66c5c1c89a3",
+                "sha256:49c4b20e1f38aa5cf109ddcd39647ac419f928512c869dc01d5c7098eddede82",
+                "sha256:bbbae5fb4a7abfe71d4688fd64bff70b91bbd74ef6a99d964bab18f7fdf286dd"
+            ],
+            "version": "==0.1.12"
         },
         "mongoengine": {
             "hashes": [
@@ -133,6 +148,13 @@
                 "sha256:7357592bc7e881a95e0c2013b73326f704953301ab551fbc8133a6fadab84105"
             ],
             "version": "==1.6.1"
+        },
+        "singledispatch": {
+            "hashes": [
+                "sha256:5b06af87df13818d14f08a028e42f566640aef80805c3b50c5056b086e3c2b9c",
+                "sha256:833b46966687b3de7f438c761ac475213e53b306740f1abfaa86e1d1aae56aa8"
+            ],
+            "version": "==3.4.0.3"
         },
         "six": {
             "hashes": [
