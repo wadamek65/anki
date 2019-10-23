@@ -4,6 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
+bandit = "*"
+pylint = "*"
+flake8 = "*"
+faker = "*"
+flake8-import-order = "*"
+pylint-quotes = "*"
+pytest-cov = "*"
 
 [packages]
 fastapi = "*"
@@ -16,4 +24,9 @@ graphene-mongo = "*"
 python_version = "3.8"
 
 [scripts]
-dev = 'uvicorn server:app --reload --port 6900'
+dev = "uvicorn server:app --reload --port 6900"
+lint = "bash -c \"pylint src && flake8 --config flake8.ini src && bandit -c bandit.yml -r src\""
+test = "pytest -v -s --cov-report term-missing --cov=src tests"
+pylint-win =  "pylint src"
+flake8-win = "flake8 --config flake8.ini src"
+bandit-win = "bandit -c bandit.yml src"

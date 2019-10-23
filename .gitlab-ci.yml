@@ -1,0 +1,15 @@
+stages:
+  - lint
+
+.backend_common: &backend_common
+  before_script:
+    - cd backend
+    - pip install pipenv
+    - PIPENV_VENV_IN_PROJECT=true pipenv install --deploy --python 3.8 --dev
+
+lint_backend:
+  <<: *backend_common
+  image: python:3.8-slim
+  stage: lint
+  script:
+    - pipenv run lint

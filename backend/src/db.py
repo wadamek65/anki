@@ -11,4 +11,5 @@ class Word(mongoengine.EmbeddedDocument):
 
 class Vocabulary(mongoengine.Document):
     owner = mongoengine.StringField(required=True)
+    title = mongoengine.StringField(default='')
     words = mongoengine.EmbeddedDocumentListField(Word)

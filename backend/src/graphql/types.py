@@ -1,4 +1,3 @@
-import graphene.relay
 import graphene_mongo
 
 from src import db

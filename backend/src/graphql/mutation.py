@@ -1,21 +1,18 @@
 import graphene
 
 from src import db
-from src.graphql import types
 
 
 class CreateVocabulary(graphene.Mutation):
     class Arguments:
         owner = graphene.String()
+        title = graphene.String()
 
     owner = graphene.String()
-    words = graphene.List(types.Word)
+    title = graphene.String()
 
-    def mutate(self, info, owner):
-        print(info, owner)
-
-        db.Vocabulary(owner=owner).save()
-
+    def mutate(self, _info, owner, title):
+        db.Vocabulary(owner=owner, title=title).save()
         return CreateVocabulary(owner=owner, words={})
 
 
