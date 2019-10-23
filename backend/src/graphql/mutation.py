@@ -11,7 +11,8 @@ class CreateVocabulary(graphene.Mutation):
     owner = graphene.String()
     title = graphene.String()
 
-    def mutate(self, _info, owner, title):
+    @staticmethod
+    def mutate(_info, owner, title):
         db.Vocabulary(owner=owner, title=title).save()
         return CreateVocabulary(owner=owner, words={})
 

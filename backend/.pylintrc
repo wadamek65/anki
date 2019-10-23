@@ -1,2 +1,2 @@
 [MESSAGES CONTROL]
-disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,too-few-public-methods,no-self-use,line-too-long
+disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,too-few-public-methods,line-too-long,no-member
