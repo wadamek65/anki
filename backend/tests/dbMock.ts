@@ -7,6 +7,6 @@ before(done => {
 	mockgoose.prepareStorage().then(() => {
 		mongoose.connect('mongodb://test/ll', err => {
 			done(err);
-		})
-	})
+		});
+	});
 });

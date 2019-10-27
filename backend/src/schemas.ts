@@ -8,18 +8,18 @@ const languageSchema = new mongoose.Schema({
 const cardSchema = new mongoose.Schema({
 	language: languageSchema,
 	word: String,
-	translations: [{type: String}],
+	translations: [{ type: String }],
 	note: String
 });
 
 const deckSchema = new mongoose.Schema({
 	title: String,
-	cards: [{type: cardSchema}]
+	cards: [{ type: cardSchema }]
 });
 
 const userSchema = new mongoose.Schema({
-	decks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Deck'}],
-	name: {type: String, required: true}
+	decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Deck' }],
+	name: { type: String, required: true }
 });
 
 export const User = mongoose.models.user || mongoose.model('user', userSchema);

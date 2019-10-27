@@ -1,12 +1,11 @@
 import { Deck, User } from './schemas';
 
-
 const getUser = async (parent, args) => {
 	return await User.findById(args.id);
 };
 
 const getDecks = async (parent, args) => {
-	let result = await Deck.find({_id: {$in: args.ids}});
+	let result = await Deck.find({ _id: { $in: args.ids } });
 	if (!result) {
 		result = [];
 	}

@@ -52,7 +52,7 @@ describe('graphql query', () => {
 
 	describe('getDecks', () => {
 		it('should return an empty array', async () => {
-			const result = await query({query: `{ getDecks(ids:[]) { id }}`});
+			const result = await query({ query: `{ getDecks(ids:[]) { id }}` });
 			expect(result.data.getDecks.length).to.equal(0);
 		});
 
@@ -79,7 +79,7 @@ describe('graphql query', () => {
           }
         }`;
 
-			const result = await query({query: getDecksQuery});
+			const result = await query({ query: getDecksQuery });
 			const data = result.data.getDecks;
 
 			expect(data.length).to.equal(3);

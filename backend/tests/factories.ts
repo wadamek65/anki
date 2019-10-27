@@ -15,6 +15,4 @@ export const DeckFactory = new Factory()
 	.attr('title', () => faker.lorem.sentence())
 	.attr('cards', () => CardFactory.buildList(5));
 
-export const UserFactory = new Factory()
-	.attr('name', () => faker.name.firstName())
-	.attr('decks', []);
+export const UserFactory = new Factory().attr('name', () => faker.name.firstName()).attr('decks', []);

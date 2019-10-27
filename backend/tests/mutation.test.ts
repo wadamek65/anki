@@ -17,11 +17,11 @@ describe('graphql mutation', () => {
           }
         }`;
 
-			const result = await mutate({mutation});
+			const result = await mutate({ mutation });
 			const user = await User.findById(result.data.createUser.id);
 
 			expect(user.name).to.equal(name);
-		})
+		});
 	});
 
 	describe('createDeck', () => {
@@ -35,10 +35,10 @@ describe('graphql mutation', () => {
           }
         }`;
 
-			const result = await mutate({mutation});
+			const result = await mutate({ mutation });
 			const deck = await Deck.findById(result.data.createDeck.id);
 
 			expect(deck.title).to.equal(title);
-		})
+		});
 	});
 });

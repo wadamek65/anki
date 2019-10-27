@@ -14,11 +14,11 @@ const resolvers = {
 				return 'User';
 			}
 
-			return ;
+			return;
 		}
 	},
 	Query,
 	Mutation
 };
 const typeDefs = importSchema('../schema.graphql');
-export const server = new ApolloServer({typeDefs, resolvers});
+export const server = new ApolloServer({ typeDefs, resolvers });

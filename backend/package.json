@@ -7,7 +7,9 @@
     "start": "nodemon -e ts",
     "test": "mocha -r ts-node/register --timeout 30000 --file ./tests/dbMock.ts tests/**/*.test.ts",
     "test-watch": "yarn test --watch -watch-extensions ts",
-    "lint": "eslint ./src/**"
+    "lint": "eslint ./src/**",
+    "prettier-check": "prettier --check ./**/*.ts",
+    "format": "prettier --write ./**/*.ts"
   },
   "dependencies": {
     "apollo-server": "^2.9.7",
