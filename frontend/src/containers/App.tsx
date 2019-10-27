@@ -6,9 +6,9 @@ import { Decks } from './Decks';
 
 export const App = () => {
   return (
-    <QueryRenderer
-      environment={environment}
-      query={graphql`
+		<QueryRenderer
+			environment={environment}
+			query={graphql`
         query AppQuery($userID: ID!) {
           getUser(id: $userID) {
             id
@@ -16,21 +16,21 @@ export const App = () => {
           }
         }
       `}
-      variables={{userID: '5db481774c40a707a806539b'}}
-      render={({error, props}: {error: any, props: any}) => {
-        if (error) {
-          console.error(error);
-          return <div>Error!</div>
-        }
-        if (!props) {
-          return <div>Loading...</div>
-        }
-        console.log(props);
-        return <div>
-          {props.getUser ? props.getUser.name : ''}
-          <Decks/>
-        </div>
-      }}
-    />
+			variables={{userID: '5db481774c40a707a806539b'}}
+			render={({error, props}: { error: any, props: any }) => {
+				if (error) {
+					console.error(error);
+					return <div>Error!</div>
+				}
+				if (!props) {
+					return <div>Loading...</div>
+				}
+				console.log(props);
+				return <div>
+					{props.getUser ? props.getUser.name : ''}
+					<Decks/>
+				</div>
+			}}
+		/>
   )
 };

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon -e ts",
     "test": "mocha -r ts-node/register --timeout 30000 --file ./tests/dbMock.ts tests/**/*.test.ts",
-    "test-watch": "yarn test --watch -watch-extensions ts"
+    "test-watch": "yarn test --watch -watch-extensions ts",
+    "lint": "eslint ./src/**"
   },
   "dependencies": {
     "apollo-server": "^2.9.7",
@@ -21,12 +22,16 @@
     "@types/mocha": "^5.2.7",
     "@types/mongoose": "^5.5.23",
     "@types/rosie": "^0.0.36",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
     "apollo-server-testing": "^2.9.7",
     "chai": "^4.2.0",
+    "eslint": "^6.6.0",
     "faker": "^4.1.0",
     "mocha": "^6.2.2",
     "mockgoose": "^8.0.3",
     "nodemon": "^1.19.4",
+    "prettier": "^1.18.2",
     "rosie": "^2.0.1",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4"
