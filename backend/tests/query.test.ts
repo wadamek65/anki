@@ -1,6 +1,6 @@
 import * as chai from 'chai';
-import { Deck, User } from '../src/schemas';
-import { DeckFactory, UserFactory } from './factories';
+import { Card, User } from '../src/schemas';
+import { CardFactory, UserFactory } from './factories';
 import { query } from './utils';
 
 const expect = chai.expect;
@@ -20,86 +20,84 @@ describe('graphql query', () => {
 		});
 	});
 
-	describe('getDeck', () => {
-		it('should return a deck', async () => {
-			const deck = DeckFactory.build();
-			const dbDeck = await new Deck(deck).save();
+	describe('getCard', () => {
+		it('should return a card', async () => {
+			const card = CardFactory.build();
+			const dbCard = await new Card(card).save();
 
 			const result = await query({
 				query: `{ 
-          getDeck(id:"${dbDeck.id}") { 
+          getCard(id:"${dbCard.id}") { 
             id 
-            title 
-            cards { 
-              word 
-              translations 
-              note 
-              language {
-                original
-                learning
-              }
-            }
+						word 
+						translations 
+						note 
+						language {
+							original
+							learning
+						}
           }
         }`
 			});
 
-			const data = result.data.getDeck;
-			expect(data.id).to.equal(dbDeck.id);
-			expect(data.title).to.equal(dbDeck.title);
-			expect(data.cards).to.deep.equal(deck.cards);
+			const data = result.data.getCard;
+			expect(data.id).to.equal(dbCard.id);
+			expect(data.word).to.equal(dbCard.word);
+			expect(data.note).to.equal(dbCard.note);
+			expect(data.translations).to.deep.equal(dbCard.translations);
+			expect(data.language).to.deep.equal(card.language);
 		});
 	});
 
-	describe('getDecks', () => {
+	describe('getCards', () => {
 		it('should return an empty array', async () => {
-			const result = await query({ query: `{ getDecks(ids:[]) { id }}` });
-			expect(result.data.getDecks.length).to.equal(0);
+			const result = await query({ query: `{ getCards(ids:[]) { id }}` });
+			expect(result.data.getCards.length).to.equal(0);
 		});
 
-		it('should return decks', async () => {
-			const decks = DeckFactory.buildList(3);
-			const dbDecks = [];
-			for (const d of decks) {
-				dbDecks.push(await new Deck(d).save());
+		it('should return cards', async () => {
+			const cards = CardFactory.buildList(3);
+			const dbCards = [];
+			for (const d of cards) {
+				dbCards.push(await new Card(d).save());
 			}
 
-			const getDecksQuery = `{ 
-          getDecks(ids:["${dbDecks[0].id}", "${dbDecks[1].id}", "${dbDecks[2].id}"]) { 
-            id 
-            title 
-            cards { 
-              word 
-              translations 
-              note 
-              language {
-                original
-                learning
-              }
-            }
-          }
-        }`;
+			const getCardsQuery = `{ 
+				getCards(ids:["${dbCards[0].id}", "${dbCards[1].id}", "${dbCards[2].id}"]) { 
+					id
+					word 
+					translations 
+					note 
+					language {
+						original
+						learning
+					}
+				}
+			}`;
 
-			const result = await query({ query: getDecksQuery });
-			const data = result.data.getDecks;
+			const result = await query({ query: getCardsQuery });
+			const data = result.data.getCards;
 
 			expect(data.length).to.equal(3);
 			for (let i = 0; i < 3; i++) {
-				expect(data[i].id).to.equal(dbDecks[i].id);
-				expect(data[i].title).to.equal(dbDecks[i].title);
-				expect(data[i].cards).to.deep.equal(decks[i].cards);
+				expect(data[i].id).to.equal(dbCards[i].id);
+				expect(data[i].word).to.equal(dbCards[i].word);
+				expect(data[i].note).to.equal(dbCards[i].note);
+				expect(data[i].languages).to.deep.equal(dbCards[i].languages);
+				expect(data[i].translations).to.deep.equal(dbCards[i].translations);
 			}
 		});
 	});
 
 	describe('node', () => {
 		const user = UserFactory.build();
-		const deck = DeckFactory.build();
+		const card = CardFactory.build();
 		let dbUser;
-		let dbDeck;
+		let dbCard;
 
 		before(async () => {
 			dbUser = await new User(user).save();
-			dbDeck = await new Deck(deck).save();
+			dbCard = await new Card(card).save();
 		});
 
 		const graphQuery = (id: string) => `{
@@ -108,16 +106,13 @@ describe('graphql query', () => {
         ...on User {
           name
         }
-        ...on Deck {
-          title
-          cards {
-            word
-            note
-            translations
-            language {
-              original
-              learning
-            }
+        ...on Card {
+					word
+					note
+					translations
+					language {
+						original
+						learning
           }
         }
       }
@@ -132,14 +127,16 @@ describe('graphql query', () => {
 			expect(result.data.node.name).to.equal(dbUser.name);
 		});
 
-		it('should return deck', async () => {
+		it('should return card', async () => {
 			const result = await query({
-				query: graphQuery(dbDeck.id)
+				query: graphQuery(dbCard.id)
 			});
 
-			expect(result.data.node.id).to.equal(dbDeck.id);
-			expect(result.data.node.title).to.equal(deck.title);
-			expect(result.data.node.cards).to.deep.equal(deck.cards);
+			expect(result.data.node.id).to.equal(dbCard.id);
+			expect(result.data.node.word).to.equal(card.word);
+			expect(result.data.node.note).to.equal(card.note);
+			expect(result.data.node.languages).to.deep.equal(card.languages);
+			expect(result.data.node.translations).to.deep.equal(card.translations);
 		});
 	});
 });

@@ -6,8 +6,8 @@ import { Query } from './query';
 const resolvers = {
 	Node: {
 		__resolveType(obj) {
-			if (obj.cards !== undefined) {
-				return 'Deck';
+			if (obj.word !== undefined) {
+				return 'Card';
 			}
 
 			if (obj.name) {

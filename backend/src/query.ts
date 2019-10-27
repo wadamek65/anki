@@ -1,24 +1,24 @@
-import { Deck, User } from './schemas';
+import { Card, User } from './schemas';
 
 const getUser = async (parent, args) => {
 	return await User.findById(args.id);
 };
 
-const getDecks = async (parent, args) => {
-	let result = await Deck.find({ _id: { $in: args.ids } });
+const getCards = async (parent, args) => {
+	let result = await Card.find({ _id: { $in: args.ids } });
 	if (!result) {
 		result = [];
 	}
 	return result;
 };
 
-const getDeck = async (parent, args) => {
-	return await Deck.findById(args.id);
+const getCard = async (parent, args) => {
+	return await Card.findById(args.id);
 };
 
 const node = async (parent, args) => {
 	let result;
-	result = await Deck.findById(args.id);
+	result = await Card.findById(args.id);
 	if (!result) {
 		result = await User.findById(args.id);
 	}
@@ -27,7 +27,7 @@ const node = async (parent, args) => {
 
 export const Query = {
 	getUser,
-	getDecks,
-	getDeck,
+	getCards,
+	getCard,
 	node
 };

@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as faker from 'faker';
-import { Deck, User } from '../src/schemas';
+import { Card, User } from '../src/schemas';
 import { mutate } from './utils';
 
 const expect = chai.expect;
@@ -10,35 +10,35 @@ describe('graphql mutation', () => {
 		it('should create a user', async () => {
 			const name = faker.name.firstName();
 			const mutation = `
-        mutation {
-          createUser(input: {name: "${name}"}) {
+        mutation CreateUser($name: String!) {
+          createUser(input: {name: $name}) {
             id
             name
           }
         }`;
 
-			const result = await mutate({ mutation });
+			const result = await mutate({ mutation, variables: { name } });
 			const user = await User.findById(result.data.createUser.id);
 
 			expect(user.name).to.equal(name);
 		});
 	});
 
-	describe('createDeck', () => {
-		it('should create a deck', async () => {
-			const title = faker.lorem.sentence();
+	describe('createCard', () => {
+		it('should create a card', async () => {
+			const word = faker.lorem.word();
 			const mutation = `
-        mutation {
-          createDeck(input: {title: "${title}"}) {
+        mutation CreateCard($word: String) {
+          createCard(input: {word: $word}) {
             id
-            title
+            word
           }
         }`;
 
-			const result = await mutate({ mutation });
-			const deck = await Deck.findById(result.data.createDeck.id);
+			const result = await mutate({ mutation, variables: { word } });
+			const card = await Card.findById(result.data.createCard.id);
 
-			expect(deck.title).to.equal(title);
+			expect(card.word).to.equal(word);
 		});
 	});
 });

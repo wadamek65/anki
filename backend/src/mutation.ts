@@ -1,16 +1,16 @@
-import { Deck, User } from './schemas';
+import { Card, User } from './schemas';
 
 const createUser = async (parent, args) => {
 	const { name } = args.input;
 	return new User({ name }).save();
 };
 
-const createDeck = async (parent, args) => {
-	const { title } = args.input;
-	return new Deck({ title }).save();
+const createCard = async (parent, args) => {
+	const { language, word, translations, note } = args.input;
+	return new Card({ language, word, translations, note }).save();
 };
 
 export const Mutation = {
 	createUser,
-	createDeck
+	createCard
 };

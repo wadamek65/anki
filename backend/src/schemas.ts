@@ -14,13 +14,13 @@ const cardSchema = new mongoose.Schema({
 
 const deckSchema = new mongoose.Schema({
 	title: String,
-	cards: [{ type: cardSchema }]
+	cards: [{ type: cardSchema, ref: 'Card'}]
 });
 
 const userSchema = new mongoose.Schema({
-	decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Deck' }],
+	decks: [{ type: deckSchema }],
 	name: { type: String, required: true }
 });
 
 export const User = mongoose.models.user || mongoose.model('user', userSchema);
-export const Deck = mongoose.models.deck || mongoose.model('deck', deckSchema);
+export const Card = mongoose.models.card || mongoose.model('card', cardSchema);
