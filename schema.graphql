@@ -1,0 +1,74 @@
+interface Node {
+    id: ID!
+}
+
+interface DeckInterface {
+    title: String
+    cards: [Card]!
+}
+
+interface UserInterface {
+    name: String!
+    decks: [Deck]!
+}
+
+type Language {
+    original: String
+    learning: String
+}
+
+type Card {
+    language: Language
+    word: String
+    translations: [String]!
+    note: String
+}
+
+type Deck implements Node & DeckInterface {
+    id: ID!
+    title: String
+    cards: [Card]!
+}
+
+type User implements Node & UserInterface {
+    id: ID!
+    name: String!
+    decks: [Deck]!
+}
+
+input CreateDeckInput {
+    title: String
+}
+
+type CreateDeckPayload implements Node & DeckInterface {
+    id: ID!
+    title: String
+    cards: [Card]!
+}
+
+input CreateUserInput {
+    name: String!
+}
+
+type CreateUserPayload implements Node & UserInterface {
+    id: ID!
+    name: String!
+    decks: [Deck]!
+}
+
+type Query {
+    getUser(id: ID!): User
+    getDeck(id: ID!): Deck
+    getDecks(ids: [ID]!): [Deck]!
+    node(id: ID!): Node
+}
+
+type Mutation {
+    createUser(input: CreateUserInput): CreateUserPayload
+    createDeck(input: CreateDeckInput!): CreateDeckPayload
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}
