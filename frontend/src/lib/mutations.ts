@@ -10,9 +10,10 @@ export const createUser = graphql`
 	}
 `;
 
-export const commitMutation = (mutation: any, input: Object) => relayCommitMutation(environment, {
-	mutation,
-	variables: {
-		input
-	}
-});
+export const commitMutation = (mutation: any, input: Object) =>
+	relayCommitMutation(environment, {
+		mutation,
+		variables: {
+			input
+		}
+	});
