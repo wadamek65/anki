@@ -4,6 +4,9 @@ env:
 extends:
   - 'eslint:recommended'
   - 'plugin:@typescript-eslint/eslint-recommended'
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:import/typescript
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
@@ -14,6 +17,7 @@ parserOptions:
 plugins:
   - '@typescript-eslint'
 rules:
+  import/order: ["error", {"groups": ["builtin", ["external", "internal"], ["parent", "sibling", "index"]], "newlines-between": "always"}]
   indent:
     - error
     - tab
@@ -26,3 +30,12 @@ rules:
   semi:
     - error
     - always
+settings:
+  import/parsers:
+    "@typescript-eslint/parser":
+    - .ts
+    - .tsx
+
+  import/resolver:
+    typescript:
+      alwaysTryTypes: false

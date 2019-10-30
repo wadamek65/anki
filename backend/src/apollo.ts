@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server';
 import { importSchema } from 'graphql-import';
+
 import { Mutation } from './mutation';
 import { Query } from './query';
 
