@@ -14,7 +14,7 @@ const cardSchema = new mongoose.Schema({
 
 const deckSchema = new mongoose.Schema({
 	title: String,
-	cards: [{ type: cardSchema, ref: 'Card'}]
+	cards: [{ type: cardSchema, ref: 'Card' }]
 });
 
 const userSchema = new mongoose.Schema({
