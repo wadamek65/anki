@@ -1,0 +1,26 @@
+extends:
+- eslint:recommended
+- plugin:@typescript-eslint/eslint-recommended
+- react-app
+- plugin:jsx-a11y/recommended
+- plugin:import/errors
+- plugin:import/warnings
+- plugin:import/typescript
+
+plugins:
+- jsx-a11y
+- import
+
+rules:
+  import/order: ["error", {"groups": ["builtin", ["external", "internal"], ["parent", "sibling", "index"]], "newlines-between": "always"}]
+
+settings:
+  import/parsers:
+    "@typescript-eslint/parser":
+    - .ts
+    - .tsx
+
+  import/resolver:
+    typescript:
+      alwaysTryTypes: false
+      directory: ./tsconfig.json
