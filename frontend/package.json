@@ -12,6 +12,7 @@
     "ky": "^0.15.0",
     "react": "^0.0.0-experimental-f6b8d31a7",
     "react-dom": "^0.0.0-experimental-f6b8d31a7",
+    "react-google-login": "^5.0.7",
     "react-relay": "^7.0.0",
     "relay-hooks": "^2.0.0-rc.3",
     "styled-components": "^4.4.0",
@@ -19,7 +20,7 @@
   },
   "devDependencies": {
     "@types/reach__router": "^1.2.6",
-    "@types/react-relay": "^6.0.2",
+    "@types/react-relay": "^7.0.0",
     "@types/relay-runtime": "^6.0.7",
     "@types/styled-components": "^4.1.20",
     "babel-plugin-relay": "^7.0.0",
@@ -33,6 +34,7 @@
     "prettier": "^1.18.2",
     "react-scripts": "3.2.0",
     "relay-compiler": "^7.0.0",
+    "relay-compiler-language-typescript": "^10.0.0",
     "relay-config": "^7.0.0",
     "typescript": "^3.6.4",
     "watchman": "^1.0.0"
@@ -42,9 +44,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "relay": "relay-compiler --src ./src --schema ../schema.graphql --extensions ts tsx",
+    "relay": "relay-compiler --src ./src --schema ../schema.graphql --extensions ts tsx --language typescript",
     "prettier-check": "prettier --check ./**/*.ts",
-    "format": "prettier --write ./**/*.ts",
+    "format": "prettier --write ./**/*.ts*",
     "lint": "eslint --ext js,ts,tsx src"
   },
   "eslintConfig": {
