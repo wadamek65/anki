@@ -8,8 +8,4 @@ const Title = styled.header`
 	grid-column: 1 / -1;
 `;
 
-export const PageTitle = ({ title }: { title: string }) => (
-	<Title>
-		{title}
-	</Title>
-);
+export const PageTitle = ({ title }: { title: string }) => <Title>{title}</Title>;

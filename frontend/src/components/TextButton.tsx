@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import styled from 'styled-components';
 
-
 const StyledTextButton = styled.button`
 	color: ${props => props.theme.color.primary.dark};
 	cursor: pointer;
@@ -28,12 +27,11 @@ interface TextButtonProps {
 export const TextButton = ({ onClick, className, leftItem, rightItem, children }: TextButtonProps) => (
 	<StyledTextButton className={className} onClick={onClick}>
 		{leftItem}
-		<Text>
-			{children}
-		</Text>
+		<Text>{children}</Text>
 		{rightItem}
 	</StyledTextButton>
 );
 
-export const AddNewTextButton = (props: TextButtonProps) => <TextButton {...props} leftItem={<FontAwesomeIcon
-	icon={faPlusSquare}/>}/>;
+export const AddNewTextButton = (props: TextButtonProps) => (
+	<TextButton {...props} leftItem={<FontAwesomeIcon icon={faPlusSquare} />} />
+);

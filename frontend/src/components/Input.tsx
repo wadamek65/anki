@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const Input = styled.input`
 	background-color: ${props => props.theme.color.background};
 	border: 1px solid ${props => props.theme.color.gray.normal};

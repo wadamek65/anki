@@ -1,4 +1,3 @@
-
 export const theme = {
 	navHeight: '50px',
 	color: {
@@ -11,7 +10,9 @@ export const theme = {
 			contrast: '#ffffff'
 		},
 		gray: {
-			normal: '#7A7A7A'
+			dark: '#383838',
+			normal: '#7A7A7A',
+			disabled: '#BDC1CC'
 		}
 	},
 	font: {
