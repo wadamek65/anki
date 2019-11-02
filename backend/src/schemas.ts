@@ -18,9 +18,11 @@ const deckSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-	decks: [{ type: deckSchema }],
-	name: { type: String, required: true }
+	decks: [{ type: deckSchema, ref: 'Deck' }],
+	name: { type: String, required: true },
+	email: { type: String, required: true }
 });
 
 export const User = mongoose.models.user || mongoose.model('user', userSchema);
+export const Deck = mongoose.models.user || mongoose.model('deck', deckSchema);
 export const Card = mongoose.models.card || mongoose.model('card', cardSchema);

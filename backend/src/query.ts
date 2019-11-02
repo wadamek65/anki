@@ -1,19 +1,11 @@
 import { Card, User } from './schemas';
 
-const getUser = async (parent, args) => {
-	return await User.findById(args.id);
-};
-
-const getCards = async (parent, args) => {
-	let result = await Card.find({ _id: { $in: args.ids } });
-	if (!result) {
-		result = [];
+const user = async (parent, args, { email, name, picture }) => {
+	let userInfo = await User.findOne({ email });
+	if (!userInfo) {
+		userInfo = await new User({ email, name }).save();
 	}
-	return result;
-};
-
-const getCard = async (parent, args) => {
-	return await Card.findById(args.id);
+	return { name: userInfo.name, email: userInfo.email, avatar: picture };
 };
 
 const node = async (parent, args) => {
@@ -26,8 +18,6 @@ const node = async (parent, args) => {
 };
 
 export const Query = {
-	getUser,
-	getCards,
-	getCard,
+	user,
 	node
 };
