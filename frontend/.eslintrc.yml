@@ -10,6 +10,7 @@ extends:
 plugins:
 - jsx-a11y
 - import
+- react-hooks
 
 rules:
   import/order: ["error", {"groups": ["builtin", ["external", "internal"], ["parent", "sibling", "index"]], "newlines-between": "always"}]
@@ -18,13 +19,15 @@ rules:
   - tab
   linebreak-style:
   - error
-  - unix
+  - windows
   quotes:
   - error
   - single
   semi:
   - error
   - always
+  react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps: warn
 
 settings:
   import/parsers:
