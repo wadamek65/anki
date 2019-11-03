@@ -12,7 +12,8 @@ export const theme = {
 		gray: {
 			dark: '#383838',
 			normal: '#7A7A7A',
-			disabled: '#BDC1CC'
+			disabled: '#BDC1CC',
+			light: '#E8E8E8'
 		}
 	},
 	font: {
