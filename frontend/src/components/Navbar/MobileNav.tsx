@@ -1,15 +1,10 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from '@reach/router';
-import graphql from 'babel-plugin-relay/macro';
 import * as React from 'react';
-import { useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 
-import { MobileNav_user } from './__generated__/MobileNav_user.graphql';
-
 const Nav = styled.nav`
-	align-items: center;
 	background-color: ${props => props.theme.color.primary.dark};
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 	display: grid;
@@ -19,12 +14,45 @@ const Nav = styled.nav`
 	padding: 0 16px;
 `;
 
+const Header = styled.title`
+	align-items: center;
+	color: ${props => props.theme.color.primary.contrast};
+	display: flex;
+	justify-content: space-between;
+`;
+
+const Avatar = styled.img`
+	background-color: ${({ theme }) => theme.color.gray.disabled};
+	border-radius: 50%;
+	height: 24px;
+	margin-right: ${({ theme }) => theme.spacing.small};
+	width: 24px;
+`;
+
+const AvatarTemplate = styled.span`
+	background-color: ${({ theme }) => theme.color.gray.light};
+	border-radius: 50%;
+	height: 24px;
+	margin-right: ${({ theme }) => theme.spacing.small};
+	width: 24px;
+`;
+
+const NameTemplate = styled.span`
+	background-color: ${({ theme }) => theme.color.gray.light};
+	border-radius: 7%;
+	height: 12px;
+	width: 120px;
+`;
+
+const AvatarWithName = styled.span`
+	align-items: center;
+	display: flex;
+`;
+
 const ExpandButton = styled.button`
-	justify-self: end;
 	width: fit-content;
 
 	svg {
-		color: ${props => props.theme.color.primary.contrast};
 		font-size: 24px;
 	}
 `;
@@ -68,29 +96,20 @@ const NavLink = ({ to, label, onClick }: { to: string; label: string; onClick?: 
 	);
 };
 
-interface MobileNavProps {
-	user: MobileNav_user;
-}
-
-export const MobileNav = (props: MobileNavProps) => {
-	const userData = useFragment(
-		graphql`
-			fragment MobileNav_user on User {
-				name
-				avatar
-			}
-		`,
-		props.user as any
-	);
-
+export const MobileNavTemplate = ({ name, avatar }: { name?: string; avatar?: string }) => {
 	const [isExpanded, setIsExpanded] = React.useState(false);
 
 	return (
 		<Nav>
-			<div>{userData.name}</div>
-			<ExpandButton onClick={() => setIsExpanded(prev => !prev)}>
-				<FontAwesomeIcon icon={faBars} />
-			</ExpandButton>
+			<Header>
+				<AvatarWithName>
+					{avatar !== undefined ? <Avatar src={avatar} alt={'User Avatar'} /> : <AvatarTemplate />}
+					{name !== undefined ? name : <NameTemplate />}
+				</AvatarWithName>
+				<ExpandButton onClick={() => setIsExpanded(prev => !prev)}>
+					<FontAwesomeIcon icon={faBars} />
+				</ExpandButton>
+			</Header>
 			{isExpanded && (
 				<>
 					<Divider />
