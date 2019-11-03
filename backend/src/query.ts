@@ -1,4 +1,4 @@
-import { Card, User } from './schemas';
+import { Card, Deck, User } from './schemas';
 
 const user = async (parent, args, { email, name, picture }) => {
 	let userInfo = await User.findOne({ email });
@@ -6,6 +6,10 @@ const user = async (parent, args, { email, name, picture }) => {
 		userInfo = await new User({ email, name }).save();
 	}
 	return { name: userInfo.name, email: userInfo.email, avatar: picture };
+};
+
+const decks = async (parent, args, { email }) => {
+	return await Deck.find({ owner: email })
 };
 
 const node = async (parent, args) => {
@@ -19,5 +23,6 @@ const node = async (parent, args) => {
 
 export const Query = {
 	user,
+	decks,
 	node
 };
