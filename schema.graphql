@@ -2,82 +2,48 @@ interface Node {
     id: ID!
 }
 
-interface CardInterface {
-    language: Language
-    word: String
-    translations: [String]!
-    note: String
-}
-
-interface UserInterface {
-    name: String!
-    decks: [Deck]!
-}
-
 type Language {
     original: String
     learning: String
 }
 
-type Card implements Node & CardInterface{
+type Card implements Node{
     id: ID!
     language: Language
     word: String
     translations: [String]!
     note: String
+
 }
 
-type Deck {
+type Deck implements Node {
+    id: ID!
     title: String
-    cards: [Card]!
 }
 
-type User implements Node & UserInterface {
-    id: ID!
+type User {
     name: String!
-    decks: [Deck]!
+    email: String!
+    avatar: String
 }
 
-input LanguageInput {
-    original: String
-    learning: String
+input CreateDeckInput {
+    title: String
 }
 
-input CreateCardInput {
-    language: LanguageInput
-    word: String
-    translations: [String]
-    note: String
-}
-
-type CreateCardPayload implements Node & CardInterface {
+type CreateDeckPayload implements Node {
     id: ID!
-    language: Language
-    note: String
-    translations: [String]!
-    word: String
-}
-
-input CreateUserInput {
-    name: String!
-}
-
-type CreateUserPayload implements Node & UserInterface {
-    id: ID!
-    name: String!
-    decks: [Deck]!
+    title: String
 }
 
 type Query {
-    getUser(id: ID!): User
-    getCard(id: ID!): Card
-    getCards(ids: [ID]!): [Card]!
+    user: User!
+    decks: [Deck!]!
     node(id: ID!): Node
 }
 
 type Mutation {
-    createUser(input: CreateUserInput): CreateUserPayload
-    createCard(input: CreateCardInput!): CreateCardPayload
+    createDeck(input: CreateDeckInput!): CreateDeckPayload
 }
 
 schema {
