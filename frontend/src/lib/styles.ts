@@ -15,3 +15,8 @@ export const grid = css`
 			margin: 0 16px;
 		`)}
 `;
+
+export const placeholderStyles = css`
+	background-color: ${({ theme }) => theme.color.gray.placeholder};
+	border-radius: 10px;
+`;

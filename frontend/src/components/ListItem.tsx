@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { placeholderStyles } from '../lib/styles';
+
 const Item = styled.li(({ theme }) => ({
 	alignItems: 'center',
 	borderTop: `1px solid ${theme.color.gray.disabled}`,
@@ -37,10 +39,10 @@ const ListItemDescription = styled.h2(({ theme }) => ({
 }));
 
 interface ListItemProps {
-	topLeftItem?: JSX.Element | string;
-	topRightItem?: JSX.Element | string;
-	bottomLeftItem?: JSX.Element | string;
-	bottomRightItem?: JSX.Element | string;
+	topLeftItem?: JSX.Element | string | null;
+	topRightItem?: JSX.Element | string | null;
+	bottomLeftItem?: JSX.Element | string | null;
+	bottomRightItem?: JSX.Element | string | null;
 }
 
 export const ListItem = (props: ListItemProps) => (
@@ -49,5 +51,42 @@ export const ListItem = (props: ListItemProps) => (
 		<ListItemAction>{props.topRightItem}</ListItemAction>
 		<ListItemDescription>{props.bottomLeftItem}</ListItemDescription>
 		<ListItemDescription>{props.bottomRightItem}</ListItemDescription>
+	</Item>
+);
+
+const ListItemTitlePlaceholder = styled.span`
+	height: 22px;
+	width: 100px;
+	margin-bottom: ${props => props.theme.spacing.tiny};
+	margin-top: ${props => props.theme.spacing.small};
+	${placeholderStyles}
+`;
+
+const ListItemDescriptionPlaceholder = styled.span`
+	height: 15px;
+	width: 150px;
+	margin-bottom: ${props => props.theme.spacing.small};
+	margin-top: ${props => props.theme.spacing.tiny};
+	${placeholderStyles}
+`;
+
+interface ListItemPlaceholderProps {
+	topLeft?: boolean;
+	topRight?: boolean;
+	bottomLeft?: boolean;
+	bottomRight?: boolean;
+}
+
+export const ListItemPlaceholder = ({
+	topLeft = true,
+	topRight = true,
+	bottomLeft = true,
+	bottomRight = true
+}: ListItemPlaceholderProps) => (
+	<Item>
+		{topLeft ? <ListItemTitlePlaceholder /> : <span />}
+		{topRight ? <ListItemTitlePlaceholder /> : <span />}
+		{bottomLeft ? <ListItemDescriptionPlaceholder /> : <span />}
+		{bottomRight ? <ListItemDescriptionPlaceholder /> : <span />}
 	</Item>
 );

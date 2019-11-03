@@ -29,16 +29,16 @@ const Avatar = styled.img`
 	width: 24px;
 `;
 
-const AvatarTemplate = styled.span`
-	background-color: ${({ theme }) => theme.color.gray.light};
+const AvatarPlaceholder = styled.span`
+	background-color: ${({ theme }) => theme.color.gray.placeholder};
 	border-radius: 50%;
 	height: 24px;
 	margin-right: ${({ theme }) => theme.spacing.small};
 	width: 24px;
 `;
 
-const NameTemplate = styled.span`
-	background-color: ${({ theme }) => theme.color.gray.light};
+const NamePlaceholder = styled.span`
+	background-color: ${({ theme }) => theme.color.gray.placeholder};
 	border-radius: 7%;
 	height: 12px;
 	width: 120px;
@@ -103,8 +103,8 @@ export const MobileNavTemplate = ({ name, avatar }: { name?: string; avatar?: st
 		<Nav>
 			<Header>
 				<AvatarWithName>
-					{avatar !== undefined ? <Avatar src={avatar} alt={'User Avatar'} /> : <AvatarTemplate />}
-					{name !== undefined ? name : <NameTemplate />}
+					{avatar !== undefined ? <Avatar src={avatar} alt={'User Avatar'} /> : <AvatarPlaceholder />}
+					{name !== undefined ? name : <NamePlaceholder />}
 				</AvatarWithName>
 				<ExpandButton onClick={() => setIsExpanded(prev => !prev)}>
 					<FontAwesomeIcon icon={faBars} />

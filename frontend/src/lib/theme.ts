@@ -13,6 +13,7 @@ export const theme = {
 			dark: '#383838',
 			normal: '#7A7A7A',
 			disabled: '#BDC1CC',
+			placeholder: '#dcdcdc',
 			light: '#E8E8E8'
 		}
 	},
