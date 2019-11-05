@@ -13,7 +13,7 @@
     "react": "^0.0.0-experimental-f6b8d31a7",
     "react-dom": "^0.0.0-experimental-f6b8d31a7",
     "react-google-login": "^5.0.7",
-    "react-relay": "^7.0.0",
+    "react-relay": "^0.0.0-experimental-a1a40b68",
     "relay-hooks": "^2.0.0-rc.3",
     "styled-components": "^4.4.0",
     "typeface-montserrat": "^0.0.75"
@@ -36,7 +36,7 @@
     "relay-compiler": "^7.0.0",
     "relay-compiler-language-typescript": "^10.0.0",
     "relay-config": "^7.0.0",
-    "typescript": "^3.6.4",
+    "typescript": "3.7.2",
     "watchman": "^1.0.0"
   },
   "scripts": {

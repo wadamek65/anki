@@ -8587,10 +8587,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-relay@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-7.0.0.tgz#c8839c2781edc51d9ac3155b66e1b22aafadcf95"
-  integrity sha512-ozN7T09wXXzf+VigDK98SW6lMGly9oJsgPGk4jxremMl6WSPX4bAa6A4NMvsFoV9GVLKB2EpaFs1YirIjWywYw==
+react-relay@^0.0.0-experimental-a1a40b68:
+  version "0.0.0-experimental-a1a40b68"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-0.0.0-experimental-a1a40b68.tgz#db719e89fb078447065f7e5d00b8567a9dddb0dd"
+  integrity sha512-XQfFnIdTjcSuNFfCWC6H13HH5+gEIJkpR4hkO8JDYczoTYrtRB4g2V58EDtX2IpOahAJpkJlGhWtdgp9YO5jZQ==
   dependencies:
     "@babel/runtime" "^7.0.0"
     fbjs "^1.0.0"
@@ -10124,10 +10124,10 @@ typeface-montserrat@^0.0.75:
   resolved "https://registry.yarnpkg.com/typeface-montserrat/-/typeface-montserrat-0.0.75.tgz#b796d9c767ab8ed1343271985beb1e44b382b7b3"
   integrity sha512-8ski20t3hdwu2T85pVfjK4jsDbwW8yWzd+LAKxYEmu+JVLVlB7G2yfmdKZz06pUwYCLVFvHvup+NYYulHDpE+w==
 
-typescript@^3.6.4:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
-  integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
+typescript@3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
+  integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
