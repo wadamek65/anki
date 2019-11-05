@@ -45,12 +45,12 @@ interface ListItemProps {
 	bottomRightItem?: JSX.Element | string | null;
 }
 
-export const ListItem = (props: ListItemProps) => (
-	<Item>
-		<ListItemTitle>{props.topLeftItem}</ListItemTitle>
-		<ListItemAction>{props.topRightItem}</ListItemAction>
-		<ListItemDescription>{props.bottomLeftItem}</ListItemDescription>
-		<ListItemDescription>{props.bottomRightItem}</ListItemDescription>
+export const ListItem = ({ topRightItem, topLeftItem, bottomRightItem, bottomLeftItem, ...rest }: ListItemProps) => (
+	<Item {...rest}>
+		<ListItemTitle>{topLeftItem}</ListItemTitle>
+		<ListItemAction>{topRightItem}</ListItemAction>
+		<ListItemDescription>{bottomLeftItem}</ListItemDescription>
+		<ListItemDescription>{bottomRightItem}</ListItemDescription>
 	</Item>
 );
 
