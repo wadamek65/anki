@@ -1,19 +1,10 @@
 import graphql from 'babel-plugin-relay/macro';
-import { commitMutation as relayCommitMutation } from 'relay-runtime';
-import { environment } from './relay';
 
-export const createUser = graphql`
-	mutation mutationsCreateUserMutation($input: CreateUserInput!) {
-		createUser(input: $input) {
-			name
+export const createDeck = graphql`
+	mutation mutationsCreateDeckMutation($input: CreateDeckInput!) {
+		createDeck(input: $input) {
+			id
+			title
 		}
 	}
 `;
-
-export const commitMutation = (mutation: any, input: Object) =>
-	relayCommitMutation(environment, {
-		mutation,
-		variables: {
-			input
-		}
-	});

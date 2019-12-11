@@ -28,66 +28,76 @@ const query = graphql`
 `;
 const result = preloadQuery<DecksQuery>(environment, query, {});
 
-const DeckList = (props) => {
-	const data = useFragment(graphql`
-		fragment Decks_decks on Viewer {
-			decks {
-				id
-				title
+const DeckList = props => {
+	const data = useFragment(
+		graphql`
+			fragment Decks_decks on Viewer {
+				decks {
+					id
+					title
+				}
 			}
-		}
-	`, props.decks);
+		`,
+		props.decks
+	);
 	console.log(props);
 	return (
 		<StyledDeckList>
-			{ data.decks.map(deck => <ListItem key={deck.id} topLeftItem={deck.title} bottomLeftItem={'10 words'} bottomRightItem={'sometime ago'}/>)}
+			{data.decks.map(deck => (
+				<ListItem key={deck.id} topLeftItem={deck.title} bottomLeftItem={'10 words'} bottomRightItem={'sometime ago'} />
+			))}
 		</StyledDeckList>
-	)
+	);
 };
 
 const DecksData = () => {
 	const data: DecksQueryResponse = usePreloadedQuery(query, result);
 
-	const addNewDeck = () => commitMutation(environment, {
-		mutation: createDeck,
-		variables: { input: {} },
-		// updater: store => {
-		// 	const newDeck = store.getRootField('createDeck');
-		// 		store.create(newDeck.getDataID(), newDeck.getType());
-		// },
-		onCompleted: res => {
-			console.log(res);
-		},
-		onError: error => {
-			console.log(error);
-		}
-	});
+	const addNewDeck = () =>
+		commitMutation(environment, {
+			mutation: createDeck,
+			variables: { input: {} },
+			// updater: store => {
+			// 	const newDeck = store.getRootField('createDeck');
+			// 		store.create(newDeck.getDataID(), newDeck.getType());
+			// },
+			onCompleted: res => {
+				console.log(res);
+			},
+			onError: error => {
+				console.log(error);
+			}
+		});
 	console.log(data);
-	return 		<Grid>
-		<PageTitle title={'Your decks'}/>
-		<Filters/>
-		<Input/>
-		<AddNewTextButton onClick={addNewDeck}>Create new deck</AddNewTextButton>
-		<DeckList decks={data.viewer}/>
-	</Grid>;
+	return (
+		<Grid>
+			<PageTitle title={'Your decks'} />
+			<Filters />
+			<Input />
+			<AddNewTextButton onClick={addNewDeck}>Create new deck</AddNewTextButton>
+			<DeckList decks={data.viewer} />
+		</Grid>
+	);
 };
 
 const DecksPlaceholder = () => (
 	<Grid>
-		<PageTitle title={'Your decks'}/>
-		<Filters/>
-		<Input/>
-		<AddNewTextButton onClick={() => {}}>Create new deck</AddNewTextButton>
+		<PageTitle title={'Your decks'} />
+		<Filters />
+		<Input />
+		<AddNewTextButton onClick={undefined as any}>Create new deck</AddNewTextButton>
 		<StyledDeckList>
-			{Array.apply(null, Array(10)).map((_, index) => <ListItemPlaceholder key={index} topRight={false}/>)}
+			{[...Array(10)].map((_, index) => (
+				<ListItemPlaceholder key={index} topRight={false} />
+			))}
 		</StyledDeckList>
 	</Grid>
 );
 
 export const Decks = (_props: RouteComponentProps) => {
 	return (
-		<React.Suspense fallback={<DecksPlaceholder/>}>
-			<DecksData/>
+		<React.Suspense fallback={<DecksPlaceholder />}>
+			<DecksData />
 		</React.Suspense>
 	);
 };

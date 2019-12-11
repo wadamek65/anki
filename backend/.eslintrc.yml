@@ -9,15 +9,20 @@ extends:
   - plugin:import/warnings
   - plugin:import/typescript
   - prettier
+
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
+
 parser: '@typescript-eslint/parser'
+
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+
 plugins:
   - '@typescript-eslint'
+
 rules:
   import/order: [
     "error",
@@ -39,6 +44,7 @@ rules:
   semi:
     - error
     - always
+
 settings:
   import/parsers:
     "@typescript-eslint/parser":
