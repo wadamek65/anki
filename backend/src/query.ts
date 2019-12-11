@@ -1,28 +1,28 @@
-import { Card, Deck, User } from './schemas';
+import { AuthData } from './apollo';
+import { Card, Deck, User as DBUser, User } from './schemas';
 
-const user = async (parent, args, { email, name, picture }) => {
-	let userInfo = await User.findOne({ email });
+const user = async (_parent, _args, { name, email, picture }: AuthData) => {
+	const userInfo = await DBUser.findOne({ email });
 	if (!userInfo) {
-		userInfo = await new User({ email, name }).save();
+		await new DBUser({ email, name }).save();
 	}
-	return { name: userInfo.name, email: userInfo.email, avatar: picture };
+
+	return { ...userInfo.toObject(), avatar: picture };
 };
 
-const decks = async (parent, args, { email }) => {
-	return await Deck.find({ owner: email })
-};
-
-const node = async (parent, args) => {
+const node = async (_parent, { id }: { id: string }) => {
 	let result;
-	result = await Card.findById(args.id);
+	result = await Card.findById(id);
 	if (!result) {
-		result = await User.findById(args.id);
+		result = await User.findById(id);
+	}
+	if (!result) {
+		result = await Deck.findById(id);
 	}
 	return result;
 };
 
 export const Query = {
-	user,
-	decks,
-	node
+	node,
+	user
 };
