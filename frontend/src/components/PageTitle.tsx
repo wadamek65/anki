@@ -1,11 +1,13 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Title = styled.header`
-	font-size: ${props => props.theme.font.size.title};
-	font-style: italic;
-	font-weight: ${props => props.theme.font.weight.medium};
-	grid-column: 1 / -1;
-`;
+const Title = styled.header(
+	({ theme }) => css`
+		font-size: ${theme.font.size.title};
+		font-style: italic;
+		font-weight: ${theme.font.weight.medium};
+		grid-column: 1 / -1;
+	`
+);
 
-export const PageTitle = ({ title }: { title: string }) => <Title>{title}</Title>;
+export const PageTitle: React.FC = ({ children }) => <Title>{children}</Title>;

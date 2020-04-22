@@ -3,5 +3,5 @@ import { theme } from '../lib/theme';
 
 declare module 'styled-components' {
 	type Theme = typeof theme;
-	export type DefaultTheme = Theme;
+	interface DefaultTheme extends Theme {} // eslint-disable-line @typescript-eslint/no-empty-interface
 }

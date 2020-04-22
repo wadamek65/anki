@@ -10,28 +10,31 @@ export interface CardInterface extends mongoose.Document {
 	note: string;
 }
 
-const languageSchema = new mongoose.Schema({
-	original: String,
-	learning: String
-});
-
 const cardSchema = new mongoose.Schema({
-	language: languageSchema,
-	word: String,
+	language: {
+		type: {
+			original: String,
+			learning: String
+		},
+		default: { original: '', learning: '' }
+	},
+	word: { type: String, default: '' },
 	translations: [{ type: String }],
-	note: String
+	note: { type: String, default: '' }
 });
 
 export interface DeckInterface extends mongoose.Document {
 	title: string;
 	owner: string;
+	createdAd: number;
 	cards: mongoose.Types.ObjectId[];
 }
 
 const deckSchema = new mongoose.Schema({
-	title: String,
+	title: { type: String, default: '' },
 	owner: { type: String, required: true },
-	cards: [{ type: mongoose.Types.ObjectId, ref: 'Card' }]
+	createdAt: Number,
+	cards: [{ type: cardSchema }]
 });
 
 export interface UserInterface extends mongoose.Document {
@@ -44,6 +47,5 @@ const userSchema = new mongoose.Schema({
 	email: { type: String, required: true }
 });
 
-export const User: mongoose.Model<UserInterface> = mongoose.models.user || mongoose.model('user', userSchema);
-export const Deck: mongoose.Model<DeckInterface> = mongoose.models.deck || mongoose.model('deck', deckSchema);
-export const Card: mongoose.Model<CardInterface> = mongoose.models.card || mongoose.model('card', cardSchema);
+export const User = mongoose.models.user || mongoose.model('user', userSchema);
+export const Deck = mongoose.models.deck || mongoose.model('deck', deckSchema);

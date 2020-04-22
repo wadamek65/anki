@@ -1,0 +1,60 @@
+type Language {
+    original: String!
+    learning: String!
+}
+
+type Card {
+    id: ID!
+    language: Language!
+    word: String!
+    translations: [String!]!
+    note: String!
+}
+
+type Deck {
+    id: ID!
+    title: String!
+    createdAt: Float!
+    cards(first: Int, last: Int, after: String, before: String): [Card!]!
+    cardsAmount: Int!
+}
+
+type User {
+    name: String!
+    email: String!
+    avatar: String!
+}
+
+input DeckInput {
+    title: String = ""
+}
+
+input LanguageInput {
+    original: String!
+    learning: String!
+}
+
+input CardInput {
+    language: LanguageInput = { original: "", learning: "" }
+    word: String = ""
+    translations: [String!] = []
+    note: String = ""
+}
+
+type Query {
+    user: User!
+    decks: [Deck!]!
+    deck(id: ID!): Deck!
+    card(id: ID!): Card!
+}
+
+type Mutation {
+    createDeck(deckInput: DeckInput): Deck!
+    createCard(deckId: ID!, card: CardInput): Card!
+    updateCard(cardId: ID!, card: CardInput!): Card!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}

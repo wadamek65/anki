@@ -1,8 +1,10 @@
 import * as mongoose from 'mongoose';
+
+import * as config from './config.json';
 import { server } from './src/apollo';
 
 (async () =>
-	await mongoose.connect('mongodb://localhost/ll', {
+	await mongoose.connect(config.db.host, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	}))();

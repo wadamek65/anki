@@ -1,42 +1,50 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { placeholderStyles } from '../lib/styles';
 
-const Item = styled.li(({ theme }) => ({
-	alignItems: 'center',
-	borderTop: `1px solid ${theme.color.gray.disabled}`,
-	display: 'grid',
-	gridColumn: '1 / -1',
-	gridTemplateColumns: '1fr 1fr',
-	padding: '0 8px',
-	'&:last-child': {
-		borderBottom: `1px solid ${theme.color.gray.disabled}`
-	}
-}));
+const Item = styled.li(
+	({ theme }) => css`
+		align-items: center;
+		border-top: 1px solid ${theme.color.gray[3]};
+		display: grid;
+		grid-column: 1 / -1;
+		grid-template-columns: 1fr 1fr;
+		padding: 0 8px;
+		&:last-child {
+			border-bottom: 1px solid ${theme.color.gray[3]};
+		}
+	`
+);
 
-const ListItemTitle = styled.h1(({ theme }) => ({
-	color: theme.color.gray.dark,
-	fontSize: theme.font.size.medium,
-	fontWeight: theme.font.weight.semiBold,
-	marginBottom: theme.spacing.tiny,
-	marginTop: theme.spacing.small
-}));
+const ListItemTitle = styled.h1(
+	({ theme }) => css`
+		color: ${theme.color.gray[0]};
+		font-size: ${theme.font.size.medium};
+		font-weight: ${theme.font.weight.semiBold};
+		margin-bottom: ${theme.spacing.tiny};
+		margin-top: ${theme.spacing.small};
+	`
+);
 
-const ListItemAction = styled.button(({ theme }) => ({
-	color: theme.color.primary.dark,
-	fontSize: theme.font.size.medium,
-	fontWeight: theme.font.weight.semiBold,
-	marginBottom: theme.spacing.tiny,
-	marginTop: theme.spacing.small
-}));
+const ListItemAction = styled.button(
+	({ theme }) => css`
+		color: ${theme.color.primary[0]};
+		font-size: ${theme.font.size.medium};
+		font-weight: ${theme.font.weight.semiBold};
+		margin-bottom: ${theme.spacing.tiny};
+		margin-top: ${theme.spacing.small};
+	`
+);
 
-const ListItemDescription = styled.h2(({ theme }) => ({
-	color: theme.color.primary.dark,
-	fontSize: theme.font.size.small,
-	marginBottom: theme.spacing.small,
-	marginTop: theme.spacing.tiny
-}));
+const ListItemDescription = styled.h2(
+	({ theme }) => css`
+		color: ${theme.color.primary[0]};
+		font-size: ${theme.font.size.small};
+		margin-bottom: ${theme.spacing.small};
+		margin-top: ${theme.spacing.tiny};
+	`
+);
 
 interface ListItemProps {
 	topLeftItem?: JSX.Element | string | null;
@@ -45,7 +53,13 @@ interface ListItemProps {
 	bottomRightItem?: JSX.Element | string | null;
 }
 
-export const ListItem = ({ topRightItem, topLeftItem, bottomRightItem, bottomLeftItem, ...rest }: ListItemProps) => (
+export const ListItem: React.FC<ListItemProps> = ({
+	topRightItem,
+	topLeftItem,
+	bottomRightItem,
+	bottomLeftItem,
+	...rest
+}) => (
 	<Item {...rest}>
 		<ListItemTitle>{topLeftItem}</ListItemTitle>
 		<ListItemAction>{topRightItem}</ListItemAction>
@@ -54,21 +68,25 @@ export const ListItem = ({ topRightItem, topLeftItem, bottomRightItem, bottomLef
 	</Item>
 );
 
-const ListItemTitlePlaceholder = styled.span`
-	height: 22px;
-	width: 100px;
-	margin-bottom: ${props => props.theme.spacing.tiny};
-	margin-top: ${props => props.theme.spacing.small};
-	${placeholderStyles}
-`;
+const ListItemTitlePlaceholder = styled.span(
+	({ theme }) => css`
+		height: 22px;
+		width: 100px;
+		margin-bottom: ${theme.spacing.tiny};
+		margin-top: ${theme.spacing.small};
+		${placeholderStyles}
+	`
+);
 
-const ListItemDescriptionPlaceholder = styled.span`
-	height: 15px;
-	width: 150px;
-	margin-bottom: ${props => props.theme.spacing.small};
-	margin-top: ${props => props.theme.spacing.tiny};
-	${placeholderStyles}
-`;
+const ListItemDescriptionPlaceholder = styled.span(
+	({ theme }) => css`
+		height: 15px;
+		width: 150px;
+		margin-bottom: ${theme.spacing.small};
+		margin-top: ${theme.spacing.tiny};
+		${placeholderStyles}
+	`
+);
 
 interface ListItemPlaceholderProps {
 	topLeft?: boolean;
@@ -77,12 +95,12 @@ interface ListItemPlaceholderProps {
 	bottomRight?: boolean;
 }
 
-export const ListItemPlaceholder = ({
+export const ListItemPlaceholder: React.FC<ListItemPlaceholderProps> = ({
 	topLeft = true,
 	topRight = true,
 	bottomLeft = true,
 	bottomRight = true
-}: ListItemPlaceholderProps) => (
+}) => (
 	<Item>
 		{topLeft ? <ListItemTitlePlaceholder /> : <span />}
 		{topRight ? <ListItemTitlePlaceholder /> : <span />}

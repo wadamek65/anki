@@ -4,7 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const StyledTextButton = styled.button`
-	color: ${props => props.theme.color.primary.dark};
+	color: ${props => props.theme.color.primary[0]};
 	cursor: pointer;
 	font-weight: ${props => props.theme.font.weight.semiBold};
 	font-size: ${props => props.theme.font.size.medium};

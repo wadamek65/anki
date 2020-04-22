@@ -1,0 +1,75 @@
+query GetUser {
+    user {
+        email
+        name
+        avatar
+    }
+}
+
+query GetDecks {
+    decks {
+        id
+        title
+        createdAt
+        cardsAmount
+    }
+}
+
+query GetDeck($id: ID!) {
+    deck(id: $id) {
+        id
+        title
+        createdAt
+        cards {
+            id
+            note
+            translations
+            word
+            language {
+                learning
+                original
+            }
+        }
+    }
+}
+
+query GetCard($id: ID!) {
+    card(id: $id) {
+        id
+        note
+        translations
+        word
+        language {
+            learning
+            original
+        }
+    }
+}
+
+mutation CreateDeck($deckInput: DeckInput) {
+    createDeck(deckInput: $deckInput) {
+        id
+        title
+        createdAt
+        cardsAmount
+    }
+}
+
+mutation CreateCard($deckId: ID!, $card: CardInput) {
+    createCard(deckId: $deckId, card: $card) {
+        id
+        note
+        word
+        translations
+        language {
+            learning
+            original
+        }
+    }
+}
+
+mutation UpdateCard($cardId: ID!, $card: CardInput!) {
+    updateCard(cardId: $cardId, card: $card) {
+        id
+    }
+}

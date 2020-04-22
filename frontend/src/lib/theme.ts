@@ -3,19 +3,20 @@ export const theme = {
 	color: {
 		background: '#F3F3F3',
 		primary: {
-			dark: '#3660CC',
-			neutral: '#889BFF',
-			light: '#ADC4FF',
-			white: '#CFDDFF',
-			contrast: '#ffffff'
+			0: '#46237A',
+			1: '#653AA5',
+			2: '#A280D6',
+			3: '#D2BBF5',
+			4: '#F7F1FF'
 		},
 		gray: {
-			dark: '#383838',
-			normal: '#7A7A7A',
-			disabled: '#BDC1CC',
-			placeholder: '#dcdcdc',
-			light: '#E8E8E8'
-		}
+			0: '#636363',
+			1: '#868686',
+			2: '#B1B1B1',
+			3: '#CECECE',
+			4: '#e9e9e9'
+		},
+		white: '#fff'
 	},
 	font: {
 		weight: {
