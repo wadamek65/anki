@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { AUTH_ENABLED, CLIENT_ID } from '../../../../lib/config';
 
 const TOKEN_KEY = 'access-token';
-const CLIENT_ID = '561207995036-g3g2jjd7af267q2q7vfb8tdqhahkn0f8.apps.googleusercontent.com';
 
 export const Auth: React.FC = ({ children }) => {
 	const token = localStorage.getItem(TOKEN_KEY);
@@ -16,7 +16,7 @@ export const Auth: React.FC = ({ children }) => {
 
 	const onFailure = (): void => localStorage.removeItem(TOKEN_KEY);
 
-	if (!isAuthenticated) {
+	if (!isAuthenticated && AUTH_ENABLED) {
 		return <GoogleLogin clientId={CLIENT_ID} onFailure={onFailure} onSuccess={onSuccess} />;
 	}
 

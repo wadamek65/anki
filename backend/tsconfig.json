@@ -1,1 +1,16 @@
-{}
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "es5",
+    "lib": ["esnext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "files": ["index.ts"],
+  "include": ["src/**/*"]
+}

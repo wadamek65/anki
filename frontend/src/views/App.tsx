@@ -8,6 +8,7 @@ import { Auth } from './Main/components/Auth';
 import { MobileNav } from './Main/components/Nav';
 import { Card, Deck, DeckCards, DeckList } from './Main/views';
 import { RouteContainer } from './Main/views/elements';
+import { API_URL } from '../lib/config';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -37,7 +38,7 @@ const GlobalStyle = createGlobalStyle(
 export const apolloClient = new ApolloClient({
 	cache: new InMemoryCache(),
 	link: new HttpLink({
-		uri: 'http://localhost:4000/graphql'
+		uri: API_URL
 	})
 });
 

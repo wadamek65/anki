@@ -1,6 +1,5 @@
-**/__generated__/**
 **/node_modules/
-**/graphql.schema.json
+**/__generated__/
 
 .idea/
 node_modules/
@@ -8,4 +7,4 @@ node_modules/
 frontend/coverage/
 frontend/build/
 
-backend/dist/
+backend/build/

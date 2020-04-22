@@ -3,7 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { importSchema } from 'graphql-import';
 
 import * as config from '../config.json';
-import { DeckResolvers, Resolvers } from './__generated__/resolvers';
+import { DeckResolvers } from './__generated__/resolvers';
 import { Mutation } from './mutation';
 import { Query } from './query';
 
@@ -13,13 +13,13 @@ const Deck: DeckResolvers = {
 	}
 };
 
-const resolvers: Resolvers = {
+const resolvers: any = {
 	Deck,
 	Query,
 	Mutation
 };
 
-const typeDefs = importSchema('../graphql/schema.graphql');
+const typeDefs = importSchema(config.app.schemaPath);
 
 const authClient = new OAuth2Client(config.auth.clientId);
 
@@ -34,7 +34,7 @@ export const server = new ApolloServer({
 	resolvers,
 	context: async ({ req }): Promise<AuthData> => {
 		try {
-			if (config.app.insecureDisableauth) {
+			if (config.app.insecureDisableAuth) {
 				return {
 					email: 'test@mail.com',
 					name: 'Test User',

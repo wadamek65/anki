@@ -4,6 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "start": "tsnd --transpile-only -- index.ts",
     "test": "mocha -r ts-node/register --timeout 30000 --file ./tests/dbMock.ts tests/**/*.test.ts",
     "test-watch": "yarn test --watch -watch-extensions ts"

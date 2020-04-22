@@ -1,6 +1,7 @@
 {
   "app": {
-    "insecureDisableauth": true
+    "insecureDisableAuth": true,
+    "schemaPath": "../graphql/schema.graphql"
   },
   "db": {
     "host": "mongodb://localhost/anki"

@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 import * as config from './config.json';
 import { server } from './src/apollo';
