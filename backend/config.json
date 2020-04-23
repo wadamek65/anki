@@ -1,0 +1,12 @@
+{
+  "app": {
+    "insecureDisableAuth": false,
+    "schemaPath": "../graphql/schema.graphql"
+  },
+  "db": {
+    "host": "mongodb://localhost/anki"
+  },
+  "auth": {
+    "clientId": "561207995036-g3g2jjd7af267q2q7vfb8tdqhahkn0f8.apps.googleusercontent.com"
+  }
+}

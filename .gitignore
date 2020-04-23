@@ -1,0 +1,10 @@
+**/node_modules/
+**/__generated__/
+
+.idea/
+node_modules/
+
+frontend/coverage/
+frontend/build/
+
+backend/build/

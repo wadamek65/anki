@@ -1,0 +1,15 @@
+FROM node:14.0.0-slim as backend-build
+
+WORKDIR /app/
+COPY backend/ /app/backend/
+COPY graphql/ /app/graphql/
+COPY codegen.yml package.json yarn.lock /app/
+
+RUN yarn install --frozen-lockfile
+RUN yarn typegen
+RUN cd backend && yarn build
+RUN yarn install --frozen-lockfile --production
+
+COPY graphql/ /app/backend/graphql/
+CMD node backend/build/index.js
+EXPOSE 4000
