@@ -26,6 +26,7 @@ const GridForm = styled.form(
 const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 	const [updateCard] = useUpdateCardMutation();
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { id, translations, ...rest } = withoutTypename(card);
 	// TODO: Make translations a proper array
 	const initialValues = { ...rest, translations: translations.join(',') };

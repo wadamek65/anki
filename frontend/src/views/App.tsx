@@ -1,14 +1,16 @@
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, concat, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloProvider, concat, HttpLink, InMemoryCache, ServerError } from '@apollo/client';
+import { onError } from '@apollo/link-error';
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components';
+import { useNavigate } from 'react-router';
 
 import { theme } from '../lib/theme';
-import { Auth, TOKEN_KEY } from './Main/components/Auth';
-import { MobileNav } from './Main/components/Nav';
 import { Card, Deck, DeckCards, DeckList } from './Main/views';
 import { RouteContainer } from './Main/views/elements';
 import { API_URL } from '../lib/config';
+import { Login } from './Login';
+import { Main } from './Main';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -35,44 +37,46 @@ const GlobalStyle = createGlobalStyle(
 	`
 );
 
-const httpLink = new HttpLink({ uri: API_URL });
-const authMiddleware = new ApolloLink((operation, forward) => {
-	operation.setContext({
-		headers: {
-			'x-access-token': localStorage.getItem(TOKEN_KEY)
+const ApolloApp: React.FC = () => {
+	const navigate = useNavigate();
+	const logoutLink = onError(({ networkError }) => {
+		if ((networkError as ServerError)?.statusCode === 401) {
+			navigate('/login');
 		}
 	});
 
-	return forward(operation);
-});
+	const httpLink = new HttpLink({ uri: `${API_URL}/graphql`, credentials: 'include' });
 
-export const apolloClient = new ApolloClient({
-	cache: new InMemoryCache(),
-	link: concat(authMiddleware, httpLink)
-});
+	const apolloClient = new ApolloClient({
+		cache: new InMemoryCache(),
+		link: concat(logoutLink as any, httpLink)
+	});
 
-export const App: React.FC = () => {
 	return (
 		<ApolloProvider client={apolloClient}>
-			<BrowserRouter>
-				<ThemeProvider theme={theme}>
-					<>
-						<GlobalStyle />
-						<Auth>
-							<MobileNav />
-							<Routes>
-								<Route path={'/decks/'} element={<DeckList />} />
-								<Route path={'/decks/'} element={<RouteContainer />}>
-									<Route path={':deckId/'} element={<Deck />}>
-										<Route path={'cards/'} element={<DeckCards />} />
-										<Route path={'cards/:cardId/'} element={<Card />} />
-									</Route>
+			<ThemeProvider theme={theme}>
+				<>
+					<GlobalStyle />
+					<Routes>
+						<Route path={'/login'} element={<Login />} />
+						<Route path={'/'} element={<Main />}>
+							<Route path={'decks/'} element={<DeckList />} />
+							<Route path={'decks/'} element={<RouteContainer />}>
+								<Route path={':deckId/'} element={<Deck />}>
+									<Route path={'cards/'} element={<DeckCards />} />
+									<Route path={'cards/:cardId/'} element={<Card />} />
 								</Route>
-							</Routes>
-						</Auth>
-					</>
-				</ThemeProvider>
-			</BrowserRouter>
+							</Route>
+						</Route>
+					</Routes>
+				</>
+			</ThemeProvider>
 		</ApolloProvider>
 	);
 };
+
+export const App: React.FC = () => (
+	<BrowserRouter>
+		<ApolloApp />
+	</BrowserRouter>
+);

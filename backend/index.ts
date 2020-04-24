@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import * as config from './config.json';
-import { server } from './src/apollo';
+import { app } from './src/apollo';
 
 (async () =>
 	await mongoose.connect(config.db.host, {
@@ -9,9 +9,7 @@ import { server } from './src/apollo';
 		useUnifiedTopology: true
 	}))();
 
-server
-	.listen()
-	.then(({ url }) => {
-		console.log(`Server started at ${url}`);
-	})
-	.catch(err => console.error(err));
+app
+	.listen({ port: 4000 }, () => {
+		console.log(`Server started at http://localhost:4000`);
+	});

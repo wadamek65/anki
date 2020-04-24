@@ -20,10 +20,10 @@ const decks: Resolvers['decks'] = async (_parent, _args, { email }) => {
 const user: Resolvers['user'] = async (_parent, _args, { name, email, picture }) => {
 	const userInfo = await DBUser.findOne({ email });
 	if (!userInfo) {
-		await new DBUser({ email, name }).save();
+		return await new DBUser({ email, name, avatar: picture }).save();
 	}
 
-	return { name, email, avatar: picture };
+	return userInfo;
 };
 
 export const Query: Resolvers = {
