@@ -1,3 +1,14 @@
+fragment CardFragment on Card {
+    id
+    word
+    note
+    translations
+    language {
+        learning
+        original
+    }
+}
+
 query GetUser {
     user {
         email
@@ -35,14 +46,7 @@ query GetDeck($id: ID!) {
 
 query GetCard($id: ID!) {
     card(id: $id) {
-        id
-        note
-        translations
-        word
-        language {
-            learning
-            original
-        }
+        ... CardFragment
     }
 }
 
@@ -57,19 +61,12 @@ mutation CreateDeck($deckInput: DeckInput) {
 
 mutation CreateCard($deckId: ID!, $card: CardInput) {
     createCard(deckId: $deckId, card: $card) {
-        id
-        note
-        word
-        translations
-        language {
-            learning
-            original
-        }
+        ... CardFragment
     }
 }
 
 mutation UpdateCard($cardId: ID!, $card: CardInput!) {
     updateCard(cardId: $cardId, card: $card) {
-        id
+        ... CardFragment
     }
 }

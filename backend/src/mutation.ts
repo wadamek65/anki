@@ -16,7 +16,8 @@ const createDeck: Resolvers['createDeck'] = async (parent, { deckInput }, { emai
 };
 
 const updateCard: Resolvers['updateCard'] = async (parent, { cardId, card }, { email }) => {
-	return Card.updateOne({ _id: cardId, owner: email }, card);
+	// const cardx = await
+	return Card.findOneAndUpdate({ _id: cardId, owner: email }, card);
 };
 
 // const startStudySession: Resolvers['startStudySession'] = async (parent, { deckId, sessionOptions }) => {

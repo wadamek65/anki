@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useParams } from 'react-router';
 import { Link, Outlet } from 'react-router-dom';
+import { MutationUpdaterFn } from '@apollo/client/core/watchQueryOptions';
 
 import { AddNewTextButton, ListItem, PageTitle } from '../../../../components';
 import { Input } from '../../../../components/Input';
@@ -14,6 +15,24 @@ import {
 import { StyledList } from '../elements';
 
 const isDeck = (data: any): data is GetDeckQuery => data?.deck?.__typename === 'Deck';
+
+export const createCardUpdater = (deckId: string): MutationUpdaterFn => (
+	client,
+	{ data: { createCard: createCardData } }
+) => {
+	const data = client.readQuery<GetDeckQuery>({ query: GetDeckDocument, variables: { id: deckId } });
+	const deckData = data?.deck as DeckType;
+	client.writeQuery<GetDeckQuery>({
+		query: GetDeckDocument,
+		variables: { id: deckId },
+		data: {
+			deck: {
+				...deckData,
+				cards: [...deckData.cards, createCardData]
+			}
+		}
+	});
+};
 
 export const Deck: React.FC = () => {
 	const { deckId } = useParams();
@@ -41,20 +60,7 @@ export const DeckCards: React.FC = () => {
 
 	const [createCard] = useCreateCardMutation({
 		variables: { deckId },
-		update(client, { data: { createCard: createCardData } }) {
-			const data = client.readQuery<GetDeckQuery>({ query: GetDeckDocument, variables: { id: deckId } });
-			const deckData = data?.deck as DeckType;
-			client.writeQuery<GetDeckQuery>({
-				query: GetDeckDocument,
-				variables: { id: deckId },
-				data: {
-					deck: {
-						...deckData,
-						cards: [...deckData.cards, createCardData]
-					}
-				}
-			});
-		}
+		update: createCardUpdater(deckId)
 	});
 
 	if (loading) {

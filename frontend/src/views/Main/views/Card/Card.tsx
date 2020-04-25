@@ -1,17 +1,19 @@
 import { useFormik } from 'formik';
 import * as React from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 
 import {
 	Card as CardType,
 	GetCardQuery,
+	useCreateCardMutation,
 	useGetCardQuery,
 	useUpdateCardMutation
 } from '../../../../__generated__/graphql';
 import { FlatButton, OutlinedButton } from '../../../../components/Button';
 import { Input, TextArea } from '../../../../components/Input';
 import { withoutTypename } from '../../../../lib/utils';
+import { createCardUpdater } from '../Deck';
 
 const isCard = (data: any): data is GetCardQuery => data?.card?.__typename === 'Card';
 
@@ -24,7 +26,12 @@ const GridForm = styled.form(
 );
 
 const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
+	const { deckId } = useParams();
+	const navigate = useNavigate();
 	const [updateCard] = useUpdateCardMutation();
+	const [createCard] = useCreateCardMutation({
+		update: createCardUpdater(deckId)
+	});
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { id, translations, ...rest } = withoutTypename(card);
@@ -43,6 +50,22 @@ const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 
 	const saveCard = (): void => {
 		handleSubmit();
+	};
+
+	const saveAndCreateCard = async (): Promise<void> => {
+		await handleSubmit();
+		const newCard = await createCard({
+			variables: {
+				deckId,
+				card: {
+					language: {
+						original: values.language.original,
+						learning: values.language.learning
+					}
+				}
+			}
+		});
+		navigate(`../${newCard.data.createCard.id}`);
 	};
 
 	return (
@@ -87,7 +110,7 @@ const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 			<FlatButton type="submit" onClick={saveCard} name="save">
 				Save card
 			</FlatButton>
-			<OutlinedButton type="submit" name="save-create">
+			<OutlinedButton type="submit" onClick={saveAndCreateCard} name="save-create">
 				Save and create a new card
 			</OutlinedButton>
 		</GridForm>
@@ -96,7 +119,8 @@ const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 
 export const Card: React.FC = () => {
 	const { cardId } = useParams();
-	const { data, loading } = useGetCardQuery({ variables: { id: cardId } });
+	// TODO: Remove this fetchPolicy once react-apollo gets their shit fixed on v3
+	const { data, loading } = useGetCardQuery({ fetchPolicy: 'no-cache', variables: { id: cardId } });
 
 	if (loading) {
 		return <div>Loading...</div>;

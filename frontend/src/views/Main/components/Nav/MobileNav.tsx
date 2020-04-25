@@ -118,7 +118,7 @@ export const MobileNav: React.FC = () => {
 
 	const avatar = data?.user?.avatar;
 	const name = data?.user?.name;
-	console.log(data);
+
 	const hideDropdown = (): void => setIsExpanded(false);
 
 	return (
