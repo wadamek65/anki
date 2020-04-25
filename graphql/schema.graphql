@@ -11,11 +11,12 @@ type Card {
     note: String!
 }
 
+
 type Deck {
     id: ID!
     title: String!
     createdAt: Float!
-    cards(first: Int, last: Int, after: String, before: String): [Card!]!
+    cards: [Card!]!
     cardsAmount: Int!
 }
 
@@ -41,6 +42,32 @@ input CardInput {
     note: String = ""
 }
 
+enum StudyDirection {
+    STANDARD
+    REVERSED
+    BOTH
+}
+
+input SessionOptions {
+    direction: StudyDirection!
+    repeatNumber: Int!
+    penalty: Int!
+}
+
+type Question {
+    cardId: ID!
+    direction: StudyDirection!
+    correctAnswers: Int!
+    wrongAnswers: Int!
+    answersLeft: Int!
+}
+
+type StudySession {
+    startedAt: Int!
+    derivedDeckId: ID!
+    questions: [Question!]!
+}
+
 type Query {
     user: User!
     decks: [Deck!]!
@@ -52,6 +79,7 @@ type Mutation {
     createDeck(deckInput: DeckInput): Deck!
     createCard(deckId: ID!, card: CardInput): Card!
     updateCard(cardId: ID!, card: CardInput!): Card!
+    startStudySession(deckId: ID!, sessionOptions: SessionOptions!): StudySession!
 }
 
 schema {

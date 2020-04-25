@@ -1,14 +1,13 @@
 import { MutationResolvers } from './__generated__/resolvers';
 import { AuthData } from './apollo';
-import { Deck } from './schemas';
+import { Card, Deck } from './schemas';
 
 type Resolvers = MutationResolvers<AuthData>;
 
 const createCard: Resolvers['createCard'] = async (parent, { deckId, card }, { email }) => {
-	const deck = await Deck.findOne({ _id: deckId, owner: email });
-	deck.cards.push(card ?? {});
-	await deck.save();
-	return deck.cards[deck.cards.length - 1];
+	const newCard = await new Card({ ...card, owner: email }).save();
+	await Deck.updateOne({ _id: deckId, owner: email }, { $push: { cards: newCard.id } });
+	return newCard;
 };
 
 const createDeck: Resolvers['createDeck'] = async (parent, { deckInput }, { email }) => {
@@ -16,19 +15,18 @@ const createDeck: Resolvers['createDeck'] = async (parent, { deckInput }, { emai
 	return new Deck({ title, owner: email, createdAt: new Date().getTime() }).save();
 };
 
-const updateCard: Resolvers['updateCard'] = async (parent, { cardId, card: cardInput }, { email }) => {
-	const deck = await Deck.findOne({ owner: email, 'cards._id': cardId });
-	const card = deck.cards.id(cardId);
-	card.note = cardInput.note;
-	card.translations = cardInput.translations;
-	card.word = cardInput.word;
-	card.language = cardInput.language;
-	await deck.save();
-	return card;
+const updateCard: Resolvers['updateCard'] = async (parent, { cardId, card }, { email }) => {
+	return Card.updateOne({ _id: cardId, owner: email }, card);
 };
+
+// const startStudySession: Resolvers['startStudySession'] = async (parent, { deckId, sessionOptions }) => {
+//
+//
+// };
 
 export const Mutation: Resolvers = {
 	createCard,
 	createDeck,
 	updateCard
+	// startStudySession
 };

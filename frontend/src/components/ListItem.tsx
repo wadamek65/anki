@@ -20,6 +20,7 @@ const Item = styled.li(
 const ListItemTitle = styled.h1(
 	({ theme }) => css`
 		color: ${theme.color.gray[0]};
+		cursor: pointer;
 		font-size: ${theme.font.size.medium};
 		font-weight: ${theme.font.weight.semiBold};
 		margin-bottom: ${theme.spacing.tiny};

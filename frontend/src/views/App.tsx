@@ -3,7 +3,6 @@ import { onError } from '@apollo/link-error';
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components';
-import { useNavigate } from 'react-router';
 
 import { theme } from '../lib/theme';
 import { Card, Deck, DeckCards, DeckList } from './Main/views';
@@ -37,21 +36,20 @@ const GlobalStyle = createGlobalStyle(
 	`
 );
 
+const logoutLink = onError(({ networkError }) => {
+	if ((networkError as ServerError)?.statusCode === 401) {
+		window.location.replace('/login');
+	}
+});
+
+const httpLink = new HttpLink({ uri: `${API_URL}/graphql`, credentials: 'include' });
+
+const apolloClient = new ApolloClient({
+	cache: new InMemoryCache(),
+	link: concat(logoutLink as any, httpLink)
+});
+
 const ApolloApp: React.FC = () => {
-	const navigate = useNavigate();
-	const logoutLink = onError(({ networkError }) => {
-		if ((networkError as ServerError)?.statusCode === 401) {
-			navigate('/login');
-		}
-	});
-
-	const httpLink = new HttpLink({ uri: `${API_URL}/graphql`, credentials: 'include' });
-
-	const apolloClient = new ApolloClient({
-		cache: new InMemoryCache(),
-		link: concat(logoutLink as any, httpLink)
-	});
-
 	return (
 		<ApolloProvider client={apolloClient}>
 			<ThemeProvider theme={theme}>

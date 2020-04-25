@@ -9,10 +9,14 @@ import { DeckResolvers } from './__generated__/resolvers';
 import { Mutation } from './mutation';
 import { Query } from './query';
 import { authMiddleware, loginRoute } from './auth';
+import { Card } from './schemas';
 
 const Deck: DeckResolvers = {
 	cardsAmount(parent) {
 		return parent.cards.length;
+	},
+	async cards(parent) {
+		return Card.find({ _id: { $in: parent.cards } });
 	}
 };
 

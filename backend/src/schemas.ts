@@ -1,15 +1,5 @@
 import * as mongoose from 'mongoose';
 
-export interface CardInterface extends mongoose.Document {
-	language: {
-		original: string;
-		learning: string;
-	};
-	word: string;
-	translations: string[];
-	note: string;
-}
-
 const cardSchema = new mongoose.Schema({
 	language: {
 		type: {
@@ -18,29 +8,32 @@ const cardSchema = new mongoose.Schema({
 		},
 		default: { original: '', learning: '' }
 	},
+	owner: { type: String, required: true },
 	word: { type: String, default: '' },
-	translations: [{ type: String }],
+	translations: [String],
 	note: { type: String, default: '' }
 });
-
-export interface DeckInterface extends mongoose.Document {
-	title: string;
-	owner: string;
-	createdAd: number;
-	cards: mongoose.Types.ObjectId[];
-}
 
 const deckSchema = new mongoose.Schema({
 	title: { type: String, default: '' },
 	owner: { type: String, required: true },
 	createdAt: Number,
-	cards: [{ type: cardSchema }]
+	cards: [mongoose.Schema.Types.ObjectId]
 });
 
-export interface UserInterface extends mongoose.Document {
-	name: string;
-	email: string;
-}
+const sessionSchema = new mongoose.Schema({
+	startedAt: Number,
+	derivedDeckId: { type: mongoose.Schema.Types.ObjectId, required: true },
+	questions: [
+		{
+			cardId: { type: mongoose.Schema.Types.ObjectId, required: true },
+			direction: { type: String, required: true },
+			correctAnswers: { type: Number, default: 0 },
+			wrongAnswers: { type: Number, default: 0 },
+			answersLeft: { type: Number, default: 0 }
+		}
+	]
+});
 
 const userSchema = new mongoose.Schema({
 	name: { type: String, required: true },
@@ -50,3 +43,5 @@ const userSchema = new mongoose.Schema({
 
 export const User = mongoose.models.user || mongoose.model('user', userSchema);
 export const Deck = mongoose.models.deck || mongoose.model('deck', deckSchema);
+export const Card = mongoose.models.card || mongoose.model('card', cardSchema);
+export const Session = mongoose.models.session || mongoose.model('session', sessionSchema);

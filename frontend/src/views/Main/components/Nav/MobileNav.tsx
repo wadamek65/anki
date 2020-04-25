@@ -61,6 +61,7 @@ const AvatarWithName = styled.span`
 `;
 
 const ExpandButton = styled.button`
+	cursor: pointer;
 	width: fit-content;
 
 	svg {
@@ -82,6 +83,7 @@ const StyledLink = styled.div<{ isActive: boolean }>(
 		background-color: ${isActive ? theme.color.primary[2] : ''};
 		border-radius: 5px;
 		color: ${theme.color.primary[4]};
+		cursor: pointer;
 		display: flex;
 		font-size: 18px;
 		font-weight: ${theme.font.weight.semiBold};
@@ -116,7 +118,7 @@ export const MobileNav: React.FC = () => {
 
 	const avatar = data?.user?.avatar;
 	const name = data?.user?.name;
-
+	console.log(data);
 	const hideDropdown = (): void => setIsExpanded(false);
 
 	return (
@@ -134,7 +136,6 @@ export const MobileNav: React.FC = () => {
 				<>
 					<Divider />
 					<NavLink to={'/decks'} label={'Decks'} onClick={hideDropdown} />
-					<NavLink to={'/study'} label={'Study'} onClick={hideDropdown} />
 					<NavLink to={'/sessions'} label={'Sessions'} onClick={hideDropdown} />
 				</>
 			)}
