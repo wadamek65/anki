@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Link, Outlet } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { ListItemPlaceholder } from '../../../components';
+import { List } from '../../../components';
 import { grid } from '../../../lib/styles';
 
 export const Grid = styled.div(
@@ -13,11 +12,11 @@ export const Grid = styled.div(
 	`
 );
 
-export const StyledList = styled.ul`
+export const GridSpan = styled.ul`
 	grid-column: 1 / -1;
 `;
 
-const ReturnLink = styled.div(
+export const ReturnLink = styled.div(
 	({ theme }) => css`
 		border-bottom: 0.5px solid ${theme.color.primary[0]};
 		color: ${theme.color.primary[0]};
@@ -27,23 +26,12 @@ const ReturnLink = styled.div(
 	`
 );
 
-export const RouteContainer: React.FC = () => {
-	return (
-		<Grid>
-			<ReturnLink>
-				<Link to={'.'}>Return to deck list</Link>
-			</ReturnLink>
-			<Outlet />
-		</Grid>
-	);
-};
-
 export const ListPlaceholder: React.FC = () => {
 	return (
-		<StyledList>
+		<GridSpan>
 			{[...Array(10)].map((_, index) => (
-				<ListItemPlaceholder key={index} topRight={false} />
+				<List.ItemPlaceholder key={index} topRight={false} />
 			))}
-		</StyledList>
+		</GridSpan>
 	);
 };

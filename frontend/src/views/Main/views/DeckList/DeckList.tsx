@@ -1,67 +1,81 @@
+import graphql from 'babel-plugin-relay/macro';
 import { format } from 'date-fns';
 import * as React from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useLazyLoadQuery } from 'react-relay/hooks';
+import { useMutation } from 'react-relay/lib/relay-experimental';
 
-import {
-	Deck,
-	GetDecksDocument,
-	GetDecksQuery,
-	useCreateDeckMutation,
-	useGetDecksQuery
-} from '../../../../__generated__/graphql';
-import { AddNewTextButton, ListItem, PageTitle } from '../../../../components';
+import { AddNewTextButton, List, PageTitle } from '../../../../components';
 import { Input } from '../../../../components/Input';
-import { Grid, ListPlaceholder, StyledList } from '../elements';
+import { Grid, ListPlaceholder, GridSpan } from '../elements';
+import { DeckListGetDecksQuery } from './__generated__/DeckListGetDecksQuery.graphql';
 
-const DecksData: React.FC<{ decks: Omit<Deck, 'cards'>[] }> = ({ decks }) => {
+const Decks: React.FC = () => {
+	const data = useLazyLoadQuery<DeckListGetDecksQuery>(
+		graphql`
+			query DeckListGetDecksQuery {
+				decks {
+					id
+					title
+					createdAt
+					cardsAmount
+				}
+			}
+		`,
+		{}
+	);
+
+	const sortedDecks = [...data.decks].reverse();
 	const getTitle = (title: string): string => (title === '' ? 'Untitled deck' : title);
 
 	return (
-		<StyledList>
-			{decks.map(deck => (
-				<ListItem
+		<>
+			{' '}
+			{sortedDecks.map(deck => (
+				<List.Item
 					key={deck.id}
-					topLeftItem={<Link to={`/decks/${deck.id}/cards`}>{getTitle(deck.title)}</Link>}
+					topLeftItem={<Link to={deck.id}>{getTitle(deck.title)}</Link>}
 					bottomLeftItem={`${deck.cardsAmount} cards`}
 					bottomRightItem={`Created at ${format(new Date(deck.createdAt), 'd.M.yyyy')}`}
 				/>
 			))}
-		</StyledList>
+		</>
 	);
 };
 
 export const DeckList: React.FC = () => {
 	const navigate = useNavigate();
-	const { data, loading, error } = useGetDecksQuery({ fetchPolicy: 'no-cache' });
-	const [createDeck] = useCreateDeckMutation({
-		update(client, { data: { createDeck } }) {
-			const data = client.readQuery<GetDecksQuery>({ query: GetDecksDocument });
-			const decks = data?.decks || [];
-			client.writeQuery({ query: GetDecksDocument, data: { decks: decks.concat(createDeck) } });
-		}
-	});
 
-	const createNewDeck = async (): Promise<void> => {
-		const { data: newDeckData } = await createDeck();
-		if (newDeckData?.createDeck) {
-			navigate(`/decks/${newDeckData.createDeck.id}/cards`);
+	const [commitCreateDeck] = useMutation(graphql`
+		mutation DeckListCreateDeckMutation($input: CreateDeckInput) {
+			createDeck(input: $input) {
+				deck {
+					id
+				}
+			}
 		}
-	};
+	`);
 
-	const sortedDecks = data?.decks ? [...data.decks].reverse() : [];
+	const createNewDeck = (): void =>
+		commitCreateDeck({
+			variables: { input: {} },
+			onCompleted: (data: any) => {
+				navigate(`/decks/${data.createDeck.deck.id}`);
+			}
+		});
 
 	return (
 		<Grid>
 			<PageTitle>Your decks</PageTitle>
 			<Input label={'Filter decks'} />
 			<AddNewTextButton onClick={createNewDeck}>Create new deck</AddNewTextButton>
-			<StyledList>
-				{loading && <ListPlaceholder />}
-				{/* TODO: Add error page */}
-				{error && 'An error has occured.'}
-				{data && <DecksData decks={sortedDecks} />}
-			</StyledList>
+			<GridSpan>
+				{/* TODO: Add error boundary*/}
+				<React.Suspense fallback={<ListPlaceholder />}>
+					<Decks />
+				</React.Suspense>
+			</GridSpan>
 		</Grid>
 	);
 };

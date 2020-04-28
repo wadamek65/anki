@@ -1,21 +1,17 @@
+import graphql from 'babel-plugin-relay/macro';
 import { useFormik } from 'formik';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useFragment, useLazyLoadQuery } from 'react-relay/hooks';
+import { useMutation } from 'react-relay/lib/relay-experimental';
 
-import {
-	Card as CardType,
-	GetCardQuery,
-	useCreateCardMutation,
-	useGetCardQuery,
-	useUpdateCardMutation
-} from '../../../../__generated__/graphql';
 import { FlatButton, OutlinedButton } from '../../../../components/Button';
 import { Input, TextArea } from '../../../../components/Input';
-import { withoutTypename } from '../../../../lib/utils';
-import { createCardUpdater } from '../Deck';
-
-const isCard = (data: any): data is GetCardQuery => data?.card?.__typename === 'Card';
+import { Grid, ReturnLink } from '../elements';
+import { Card_card$key } from './__generated__/Card_card.graphql';
+import { CardGetCardQuery } from './__generated__/CardGetCardQuery.graphql';
 
 const GridForm = styled.form(
 	({ theme }) => css`
@@ -25,25 +21,56 @@ const GridForm = styled.form(
 	`
 );
 
-const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
-	const { deckId } = useParams();
+const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
+	const { cardId, deckId } = useParams();
 	const navigate = useNavigate();
-	const [updateCard] = useUpdateCardMutation();
-	const [createCard] = useCreateCardMutation({
-		update: createCardUpdater(deckId)
-	});
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { id, translations, ...rest } = withoutTypename(card);
-	// TODO: Make translations a proper array
-	const initialValues = { ...rest, translations: translations.join(',') };
-	const { handleChange, values, handleSubmit } = useFormik({
+	const data = useFragment<Card_card$key>(
+		graphql`
+			fragment Card_card on Card {
+				word
+				translations
+				note
+				language {
+					learning
+					original
+				}
+			}
+		`,
+		card
+	);
+
+	const [commitCreateCard] = useMutation(graphql`
+		mutation CardCreateCardMutation($input: CreateCardInput!) {
+			createCard(input: $input) {
+				card {
+					id
+				}
+			}
+		}
+	`);
+
+	const [commitUpdateCard] = useMutation(graphql`
+		mutation CardUpdateCardMutation($input: UpdateCardInput!) {
+			updateCard(input: $input) {
+				card {
+					id
+				}
+			}
+		}
+	`);
+
+	const initialValues = { ...data, translations: data.translations.join(',') };
+	const { handleChange, values, handleSubmit, setValues } = useFormik({
 		initialValues,
 		onSubmit: cardValues =>
-			updateCard({
+			commitUpdateCard({
 				variables: {
-					cardId: card.id,
-					card: { ...cardValues, translations: cardValues.translations.split(',') }
+					input: {
+						cardId,
+						...cardValues,
+						translations: cardValues.translations.split(',')
+					}
 				}
 			})
 	});
@@ -54,18 +81,19 @@ const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 
 	const saveAndCreateCard = async (): Promise<void> => {
 		await handleSubmit();
-		const newCard = await createCard({
+		commitCreateCard({
 			variables: {
-				deckId,
-				card: {
+				input: {
+					deckId,
 					language: {
 						original: values.language.original,
 						learning: values.language.learning
 					}
 				}
-			}
+			},
+			onCompleted: (data: any) => navigate(`../${data.createCard.card.id}`)
 		});
-		navigate(`../${newCard.data.createCard.id}`);
+		setValues({ ...initialValues, language: values.language });
 	};
 
 	return (
@@ -117,18 +145,33 @@ const CardForm: React.FC<{ card: CardType }> = ({ card }) => {
 	);
 };
 
-export const Card: React.FC = () => {
+const CardData: React.FC = () => {
 	const { cardId } = useParams();
-	// TODO: Remove this fetchPolicy once react-apollo gets their shit fixed on v3
-	const { data, loading } = useGetCardQuery({ fetchPolicy: 'no-cache', variables: { id: cardId } });
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
+	const data = useLazyLoadQuery<CardGetCardQuery>(
+		graphql`
+			query CardGetCardQuery($id: ID!) {
+				card(id: $id) {
+					...Card_card
+				}
+			}
+		`,
+		{ id: cardId }
+	);
 
-	if (isCard(data)) {
-		return <CardForm card={data.card} />;
-	}
+	return <EditForm card={data.card} />;
+};
 
-	return <div>An unexpected error has occured.</div>;
+export const Card: React.FC = () => {
+	return (
+		<Grid>
+			<ReturnLink>
+				<Link to={-1}>Return</Link>
+			</ReturnLink>
+			{/* TODO: Add error boundary*/}
+			<React.Suspense fallback={<div>Loading card ...</div>}>
+				<CardData />
+			</React.Suspense>
+		</Grid>
+	);
 };

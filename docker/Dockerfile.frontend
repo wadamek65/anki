@@ -5,10 +5,10 @@ ARG TARGET
 WORKDIR /app/
 COPY frontend/ /app/frontend/
 COPY graphql/ /app/graphql/
-COPY codegen.yml package.json yarn.lock /app/
+COPY package.json yarn.lock /app/
 
 RUN yarn install --frozen-lockfile
-RUN yarn typegen
+RUN yarn generate:frontend
 RUN cd frontend && TARGET=${TARGET} yarn build
 
 FROM nginx:alpine

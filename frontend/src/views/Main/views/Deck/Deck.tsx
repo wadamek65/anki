@@ -1,92 +1,52 @@
+import graphql from 'babel-plugin-relay/macro';
 import * as React from 'react';
+import { useLazyLoadQuery } from 'react-relay/hooks';
 import { useParams } from 'react-router';
-import { Link, Outlet } from 'react-router-dom';
-import { MutationUpdaterFn } from '@apollo/client/core/watchQueryOptions';
+import { Link, Route, Routes } from 'react-router-dom';
 
-import { AddNewTextButton, ListItem, PageTitle } from '../../../../components';
-import { Input } from '../../../../components/Input';
-import {
-	Deck as DeckType,
-	GetDeckDocument,
-	GetDeckQuery,
-	useCreateCardMutation,
-	useGetDeckQuery
-} from '../../../../__generated__/graphql';
-import { StyledList } from '../elements';
+import { PageTitle } from '../../../../components';
+import { ErrorBoundary } from '../../../../components/ErrorBoundary';
+import { Grid, ReturnLink } from '../elements';
+import { DeckDeckDataQuery } from './__generated__/DeckDeckDataQuery.graphql';
+import { CardList } from './views/CardList';
 
-const isDeck = (data: any): data is GetDeckQuery => data?.deck?.__typename === 'Deck';
+export const DeckData: React.FC = () => {
+	const { deckId } = useParams();
 
-export const createCardUpdater = (deckId: string): MutationUpdaterFn => (
-	client,
-	{ data: { createCard: createCardData } }
-) => {
-	const data = client.readQuery<GetDeckQuery>({ query: GetDeckDocument, variables: { id: deckId } });
-	const deckData = data?.deck as DeckType;
-	client.writeQuery<GetDeckQuery>({
-		query: GetDeckDocument,
-		variables: { id: deckId },
-		data: {
-			deck: {
-				...deckData,
-				cards: [...deckData.cards, createCardData]
+	const data = useLazyLoadQuery<DeckDeckDataQuery>(
+		graphql`
+			query DeckDeckDataQuery($id: ID!) {
+				deck(id: $id) {
+					title
+					...CardList_cards
+				}
 			}
-		}
-	});
+		`,
+		{ id: deckId }
+	);
+
+	return (
+		<>
+			<PageTitle>{data.deck.title || 'Untitled deck'}</PageTitle>
+			<Routes>
+				<Route path={'/'} element={<CardList deck={data.deck} />} />
+			</Routes>
+		</>
+	);
 };
 
 export const Deck: React.FC = () => {
-	const { deckId } = useParams();
-	const { data, loading } = useGetDeckQuery({ variables: { id: deckId } });
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (isDeck(data)) {
-		return (
-			<>
-				<PageTitle>{data.deck.title || 'Untitled deck'}</PageTitle>
-				<Outlet />
-			</>
-		);
-	}
-
-	return <div>An unexpected error has occured.</div>;
-};
-
-export const DeckCards: React.FC = () => {
-	const { deckId } = useParams();
-	const { data, loading } = useGetDeckQuery({ fetchPolicy: 'no-cache', variables: { id: deckId } });
-
-	const [createCard] = useCreateCardMutation({
-		variables: { deckId },
-		update: createCardUpdater(deckId)
-	});
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	const getCardTitle = (title: string): string => (title === '' ? 'Unnamed card' : title);
-
-	if (isDeck(data)) {
-		return (
-			<>
-				<Input label={'Filter cards'} />
-				<AddNewTextButton onClick={createCard}>Create new card</AddNewTextButton>
-				<StyledList>
-					{data.deck.cards.map(card => (
-						<ListItem
-							key={card.id}
-							topLeftItem={<Link to={`${card.id}`}>{getCardTitle(card.word)}</Link>}
-							bottomLeftItem={card.language.learning}
-							bottomRightItem={card.language.original}
-						/>
-					))}
-				</StyledList>
-			</>
-		);
-	}
-
-	return <div>An unexpected error has occured.</div>;
+	return (
+		<Grid>
+			<ReturnLink>
+				<Link to={-1}>Return</Link>
+			</ReturnLink>
+			{/* TODO: Add error boundary*/}
+			<ErrorBoundary>
+				<React.Suspense fallback={<div>Loading deck ...</div>}>
+					<DeckData />
+				</React.Suspense>
+			</ErrorBoundary>
+		</Grid>
+	);
 };

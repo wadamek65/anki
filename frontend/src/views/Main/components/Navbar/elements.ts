@@ -1,12 +1,6 @@
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-import { useGetUserQuery } from '../../../../__generated__/graphql';
-
-const Nav = styled.nav(
+const Container = styled.nav(
 	({ theme }) => css`
 		background-color: ${theme.color.primary[0]};
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -18,7 +12,7 @@ const Nav = styled.nav(
 	`
 );
 
-const Header = styled.title(
+const Head = styled.title(
 	({ theme }) => css`
 		align-items: center;
 		color: ${theme.color.primary[4]};
@@ -94,51 +88,14 @@ const StyledLink = styled.div<{ isActive: boolean }>(
 	`
 );
 
-interface NavLinkProps {
-	to: string;
-	label: string;
-	onClick?: () => void;
-}
-
-const NavLink: React.FC<NavLinkProps> = ({ to, label, onClick }) => {
-	const [isActive] = React.useState(false);
-
-	return (
-		<Link to={to}>
-			<StyledLink isActive={isActive} onClick={onClick}>
-				{label}
-			</StyledLink>
-		</Link>
-	);
-};
-
-export const MobileNav: React.FC = () => {
-	const [isExpanded, setIsExpanded] = React.useState(false);
-	const { data } = useGetUserQuery();
-
-	const avatar = data?.user?.avatar;
-	const name = data?.user?.name;
-
-	const hideDropdown = (): void => setIsExpanded(false);
-
-	return (
-		<Nav>
-			<Header>
-				<AvatarWithName>
-					{avatar !== undefined ? <Avatar src={avatar} alt={'User Avatar'} /> : <AvatarPlaceholder />}
-					{name !== undefined ? name : <NamePlaceholder />}
-				</AvatarWithName>
-				<ExpandButton onClick={() => setIsExpanded(prev => !prev)}>
-					<FontAwesomeIcon icon={faBars} />
-				</ExpandButton>
-			</Header>
-			{isExpanded && (
-				<>
-					<Divider />
-					<NavLink to={'/decks'} label={'Decks'} onClick={hideDropdown} />
-					<NavLink to={'/sessions'} label={'Sessions'} onClick={hideDropdown} />
-				</>
-			)}
-		</Nav>
-	);
+export const NavbarElements = {
+	StyledLink,
+	Divider,
+	ExpandButton,
+	AvatarWithName,
+	Avatar,
+	AvatarPlaceholder,
+	NamePlaceholder,
+	Head,
+	Container
 };
