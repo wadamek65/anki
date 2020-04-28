@@ -9,16 +9,9 @@
     "lint:frontend": "eslint frontend/src --ext .js,.jsx,.ts,.tsx",
     "lint:backend": "eslint backend/src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint:frontend --fix && yarn lint:backend --fix",
-    "typegen": "graphql-codegen"
+    "generate": "yarn --cwd backend typegen && yarn --cwd frontend relay"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.13.3",
-    "@graphql-codegen/fragment-matcher": "^1.13.3",
-    "@graphql-codegen/introspection": "^1.13.3",
-    "@graphql-codegen/typescript": "^1.13.3",
-    "@graphql-codegen/typescript-operations": "^1.13.3",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.3",
-    "@graphql-codegen/typescript-resolvers": "^1.13.3",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
@@ -28,6 +21,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
+    "eslint-plugin-relay": "^1.7.0",
     "prettier": "^2.0.5"
   }
 }

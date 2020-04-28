@@ -1,9 +1,13 @@
+interface Node {
+    id: ID!
+}
+
 type Language {
     original: String!
     learning: String!
 }
 
-type Card {
+type Card implements Node{
     id: ID!
     language: Language!
     word: String!
@@ -11,8 +15,7 @@ type Card {
     note: String!
 }
 
-
-type Deck {
+type Deck implements Node {
     id: ID!
     title: String!
     createdAt: Float!
@@ -26,8 +29,12 @@ type User {
     avatar: String!
 }
 
-input DeckInput {
+input CreateDeckInput {
     title: String = ""
+}
+
+type CreateDeckPayload {
+    deck: Deck!
 }
 
 input LanguageInput {
@@ -35,11 +42,28 @@ input LanguageInput {
     learning: String!
 }
 
-input CardInput {
+input CreateCardInput {
+    deckId: ID!
     language: LanguageInput = { original: "", learning: "" }
     word: String = ""
     translations: [String!] = []
     note: String = ""
+}
+
+type CreateCardPayload {
+    card: Card!
+}
+
+input UpdateCardInput {
+    cardId: ID!
+    language: LanguageInput
+    word: String
+    translations: [String!]
+    note: String
+}
+
+type UpdateCardPayload {
+    card: Card!
 }
 
 enum StudyDirection {
@@ -62,7 +86,8 @@ type Question {
     answersLeft: Int!
 }
 
-type StudySession {
+type StudySession implements Node {
+    id: ID!
     startedAt: Int!
     derivedDeckId: ID!
     questions: [Question!]!
@@ -73,13 +98,14 @@ type Query {
     decks: [Deck!]!
     deck(id: ID!): Deck!
     card(id: ID!): Card!
+    node(id: ID!): Node!
 }
 
 type Mutation {
-    createDeck(deckInput: DeckInput): Deck!
-    createCard(deckId: ID!, card: CardInput): Card!
-    updateCard(cardId: ID!, card: CardInput!): Card!
-    startStudySession(deckId: ID!, sessionOptions: SessionOptions!): StudySession!
+    createDeck(input: CreateDeckInput): CreateDeckPayload!
+    createCard(input: CreateCardInput!): CreateCardPayload!
+    updateCard(input: UpdateCardInput!): UpdateCardPayload!
+#    startStudySession(deckId: ID!, sessionOptions: SessionOptions!): StudySession!
 }
 
 schema {

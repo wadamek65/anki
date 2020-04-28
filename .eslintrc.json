@@ -20,7 +20,8 @@
     "jsx-a11y",
     "import",
     "prettier",
-    "react"
+    "react",
+    "relay"
   ],
   "extends": [
     "eslint:recommended",
@@ -34,7 +35,8 @@
     "plugin:import/typescript",
     "prettier",
     "prettier/@typescript-eslint",
-    "prettier/react"
+    "prettier/react",
+    "plugin:relay/recommended"
   ],
   "rules": {
     "react/prop-types": [
@@ -44,6 +46,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/camelcase": ["error", {"allow":  [".*_.*\\$key"]}],
     "no-console": ["error", {
       "allow": ["warn", "error"]
     }],
@@ -64,6 +67,8 @@
         ],
         "newlines-between": "always"
       }
-    ]
+    ],
+    "relay/generated-flow-types": "off",
+    "relay/unused-fields": "error"
   }
 }

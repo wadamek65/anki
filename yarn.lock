@@ -1230,22 +1230,6 @@
     "@graphql-toolkit/schema-merging" "~0.10.4"
     tslib "~1.11.1"
 
-"@graphql-codegen/fragment-matcher@^1.13.3":
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/fragment-matcher/-/fragment-matcher-1.13.3.tgz#c7e18b45b475009a080bcfea6364c280c1c50c1b"
-  integrity sha512-Q95SGLsmr4Mvy9VN+C+U2MG0FZAsSLDO9tXVT0wEbmO82bmuBT+jSlBb35XImYEtyxtvd5U4M9rB0XY4iJuprw==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "1.13.3"
-    tslib "~1.11.1"
-
-"@graphql-codegen/introspection@^1.13.3":
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.13.3.tgz#78c61508c66553b75113e38802bec446b544a4e2"
-  integrity sha512-UUyvgI8uj0RA7ca2FLoSTXfWhLuS8mHNvgSftHvPR4SJCXnI005V8jDfNatnD6edyMPnAKlUaUCvwEQE34/Blw==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "1.13.3"
-    tslib "~1.11.1"
-
 "@graphql-codegen/plugin-helpers@1.13.3":
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.13.3.tgz#c413e1cdbfe5c21445c6f6c7b59fb835231803b8"
@@ -1261,29 +1245,6 @@
     pascal-case "3.1.1"
     tslib "~1.11.1"
     upper-case "2.0.1"
-
-"@graphql-codegen/typescript-operations@^1.13.3":
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.13.3.tgz#f57622e4573cf861b7d247da19132bf735f8ec81"
-  integrity sha512-/f12TvNTHjCU7Yr3fvK/jS/DNQZq/9w9NKXgLcAILHgJXVH6YfEu7fU2XrDtoq/qsA9MYv09QgQd2nCE8MbX3w==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "1.13.3"
-    "@graphql-codegen/typescript" "1.13.3"
-    "@graphql-codegen/visitor-plugin-common" "1.13.3"
-    auto-bind "~4.0.0"
-    tslib "~1.11.1"
-
-"@graphql-codegen/typescript-react-apollo@^1.13.3":
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-1.13.3.tgz#699bbf5c579641f294ec7b825492d20c2bff07e4"
-  integrity sha512-ppvaAobm4SkIqOEeVFGgksbSqbjy4s2zamoEU8EuhxEKAyGzqQZy0Xk7SA3o/cjSRAsmUcwweNOnJeR1IaJtmA==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "1.13.3"
-    "@graphql-codegen/visitor-plugin-common" "1.13.3"
-    auto-bind "~4.0.0"
-    camel-case "4.1.1"
-    pascal-case "3.1.1"
-    tslib "~1.11.1"
 
 "@graphql-codegen/typescript-resolvers@^1.13.3":
   version "1.13.3"
@@ -2255,6 +2216,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-relay@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-relay/-/react-relay-7.0.3.tgz#73a7dd35286aabd645bfbe4a00723a7b546054fe"
+  integrity sha512-laZ9nGDqQd9VyljJ2w8tGDcFZz9dm8K6NHsyDR8jig1eLzjYf/3ayQl+N3hnrfOVLUQsmuvy4dsyyJzjCIJAHA==
+  dependencies:
+    "@types/react" "*"
+    "@types/relay-runtime" "*"
+
 "@types/react@*", "@types/react@^16.9.34":
   version "16.9.34"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.34.tgz#f7d5e331c468f53affed17a8a4d488cd44ea9349"
@@ -2262,6 +2231,11 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/relay-runtime@*":
+  version "8.0.8"
+  resolved "https://registry.yarnpkg.com/@types/relay-runtime/-/relay-runtime-8.0.8.tgz#77be2b7647995b6f2d9bcceae0febe7a7e337da8"
+  integrity sha512-Wy/31wkIZn0M1VlDAy2haNRiXQtaQr6D+XnhCRraX6BTGhzytLj05hdqMo3unbP0/5WcYXXTPMLPeGvDwHQISQ==
 
 "@types/rosie@^0.0.37":
   version "0.0.37"
@@ -3302,7 +3276,7 @@ babel-plugin-jest-hoist@^24.9.0:
   dependencies:
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-macros@2.8.0:
+babel-plugin-macros@2.8.0, babel-plugin-macros@^2.0.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.8.0.tgz#0f958a7cc6556b1e65344465d99111a1e5e10138"
   integrity sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==
@@ -3315,6 +3289,13 @@ babel-plugin-named-asset-import@^0.3.6:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/babel-plugin-named-asset-import/-/babel-plugin-named-asset-import-0.3.6.tgz#c9750a1b38d85112c9e166bf3ef7c5dbc605f4be"
   integrity sha512-1aGDUfL1qOOIoqk9QKGIo2lANk+C7ko/fqH0uIyC71x3PEGz0uVP8ISgfEsFuG+FKmjHTvFK/nNM8dowpmUxLA==
+
+babel-plugin-relay@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-9.0.0.tgz#05b25bb7296151a9c7c91338a8e71f7d95a83b64"
+  integrity sha512-2v+7fPI8Iv/MKcutAma8iryVGkwe5Hfmb6rIo0B9USZpMnOYS3TamCq8SwaQLBR5R9RrkbHsx5vxz2cUvhSeOg==
+  dependencies:
+    babel-plugin-macros "^2.0.0"
 
 "babel-plugin-styled-components@>= 1":
   version "1.10.7"
@@ -5645,6 +5626,13 @@ eslint-plugin-react@7.19.0, eslint-plugin-react@^7.19.0:
     string.prototype.matchall "^4.0.2"
     xregexp "^4.3.0"
 
+eslint-plugin-relay@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-1.7.0.tgz#f6cfae681381dc96db9bd700d8c33fbe9783143e"
+  integrity sha512-JmAMQFr9CxXFLo5BppdN/sleofrE1J/cERIgkFqnYdTq0KAeUNGnz3jO41cqcp1y92/D+KJdmEKFsPfnqnDByQ==
+  dependencies:
+    graphql "^14.0.0 | ^15.0.0-rc.1"
+
 eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
@@ -6811,6 +6799,11 @@ graphql@*, graphql@^15.0.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.0.0.tgz#042a5eb5e2506a2e2111ce41eb446a8e570b8be9"
   integrity sha512-ZyVO1xIF9F+4cxfkdhOJINM+51B06Friuv4M66W7HzUOeFd+vNzUn4vtswYINPi6sysjf1M2Ri/rwZALqgwbaQ==
 
+"graphql@^14.0.0 | ^15.0.0-rc.1":
+  version "15.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.0.0-rc.2.tgz#6549e52e5415ac08900c432b22d34500c0c3635f"
+  integrity sha512-X9ZybETBiZ5zndyXm/Yn3dd0nJqiCNZ7w06lnd0zMiCtBR/KQGgxJmnf47Y/P/Fy7JXM4QDF+MeeoH724yc3DQ==
+
 graphql@^14.5.3:
   version "14.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.6.0.tgz#57822297111e874ea12f5cd4419616930cd83e49"
@@ -7211,6 +7204,11 @@ immer@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
+  integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
 
 immutable@~3.7.6:
   version "3.7.6"
@@ -11296,6 +11294,16 @@ react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-relay@^0.0.0-experimental-8cc94ddc:
+  version "0.0.0-experimental-8cc94ddc"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-0.0.0-experimental-8cc94ddc.tgz#bafb71953fb41ebf9c122cb0443e96ab8df3e710"
+  integrity sha512-1yrSsajW8dOQlCWa8EHc7YcxgXnlyypPKtdooCZ7Oq6gQ3FawR4Ft5wvCiILoORDwI343BcpG5NZ4Ed7ae0O8Q==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    fbjs "^1.0.0"
+    nullthrows "^1.1.1"
+    relay-runtime "9.0.0"
+
 react-router-dom@^6.0.0-alpha.3:
   version "6.0.0-alpha.3"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.0.0-alpha.3.tgz#295aa7691de913b81f481b7cb14418e3b2f08edf"
@@ -11593,7 +11601,15 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
-relay-compiler@9.0.0:
+relay-compiler-language-typescript@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/relay-compiler-language-typescript/-/relay-compiler-language-typescript-12.0.1.tgz#2b8052cdd6376f8dc3ac38c45ba83db942fd5b24"
+  integrity sha512-Ig2UN53kkw4r9txOsfxBQq39qxhhzliiMCjB2/Z1l78FKsJLXrp2GDzcGIZ8lM+MGhMTp8wKGvLAECL4fCZZfA==
+  dependencies:
+    immutable "^4.0.0-rc.12"
+    invariant "^2.2.4"
+
+relay-compiler@9.0.0, relay-compiler@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-9.0.0.tgz#821c2fb972598ea8479db27fc5198133babec6c0"
   integrity sha512-V509bPZMqVvITUcgXFgvO9pcnAKzF7pJXObnxfglOl3JsfJeDwTW1fu/CzPtvk5suxVMK6Cn9fMxZK2GdRXqYQ==
@@ -11615,7 +11631,7 @@ relay-compiler@9.0.0:
     signedsource "^1.0.0"
     yargs "^14.2.0"
 
-relay-runtime@9.0.0:
+relay-runtime@9.0.0, relay-runtime@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-9.0.0.tgz#03633be24dc3c8b56e472062de6f103954e3d296"
   integrity sha512-bBNeNmwMOnqtCvuPnWdgflFSVwuUbGV7m7os8qHCUCSJ52DT5B/m6K4wisVh3eZ0QWYr7hheRDfmR/3UEdUe5A==

@@ -2,14 +2,16 @@ import { ApolloClient, ApolloProvider, concat, HttpLink, InMemoryCache, ServerEr
 import { onError } from '@apollo/link-error';
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components';
 
-import { theme } from '../lib/theme';
-import { Card, Deck, DeckCards, DeckList } from './Main/views';
-import { RouteContainer } from './Main/views/elements';
 import { API_URL } from '../lib/config';
+import { relayEnvironment } from '../lib/relay';
+import { theme } from '../lib/theme';
 import { Login } from './Login';
 import { Main } from './Main';
+import { Card, Deck, DeckList } from './Main/views';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -49,32 +51,30 @@ const apolloClient = new ApolloClient({
 	link: concat(logoutLink as any, httpLink)
 });
 
-const ApolloApp: React.FC = () => {
+export const App: React.FC = () => {
 	return (
-		<ApolloProvider client={apolloClient}>
-			<ThemeProvider theme={theme}>
-				<>
-					<GlobalStyle />
-					<Routes>
-						<Route path={'/login'} element={<Login />} />
-						<Route path={'/'} element={<Main />}>
-							<Route path={'decks/'} element={<DeckList />} />
-							<Route path={'decks/'} element={<RouteContainer />}>
-								<Route path={':deckId/'} element={<Deck />}>
-									<Route path={'cards/'} element={<DeckCards />} />
-									<Route path={'cards/:cardId/'} element={<Card />} />
-								</Route>
-							</Route>
-						</Route>
-					</Routes>
-				</>
-			</ThemeProvider>
-		</ApolloProvider>
+		<BrowserRouter>
+			<ApolloProvider client={apolloClient}>
+				<ThemeProvider theme={theme}>
+					<>
+						<GlobalStyle />
+						<Routes>
+							<Route path={'/login'} element={<Login />} />
+						</Routes>
+						<ErrorBoundary>
+							<RelayEnvironmentProvider environment={relayEnvironment}>
+								<Routes>
+									<Route path={'/'} element={<Main />}>
+										<Route path={'decks/'} element={<DeckList />} />
+										<Route path={'decks/:deckId/'} element={<Deck />} />
+										<Route path={'decks/:deckId/cards/:cardId'} element={<Card />} />
+									</Route>
+								</Routes>
+							</RelayEnvironmentProvider>
+						</ErrorBoundary>
+					</>
+				</ThemeProvider>
+			</ApolloProvider>
+		</BrowserRouter>
 	);
 };
-
-export const App: React.FC = () => (
-	<BrowserRouter>
-		<ApolloApp />
-	</BrowserRouter>
-);

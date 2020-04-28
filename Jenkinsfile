@@ -13,7 +13,7 @@ pipeline {
             }
             steps {
                 sh "yarn"
-                sh "yarn typegen"
+                sh "yarn generate"
                 sh "yarn lint"
             }
         }

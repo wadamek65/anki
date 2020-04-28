@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { placeholderStyles } from '../lib/styles';
 
-const Item = styled.li(
+const Li = styled.li(
 	({ theme }) => css`
 		align-items: center;
 		border-top: 1px solid ${theme.color.gray[3]};
@@ -54,19 +54,13 @@ interface ListItemProps {
 	bottomRightItem?: JSX.Element | string | null;
 }
 
-export const ListItem: React.FC<ListItemProps> = ({
-	topRightItem,
-	topLeftItem,
-	bottomRightItem,
-	bottomLeftItem,
-	...rest
-}) => (
-	<Item {...rest}>
+const Item: React.FC<ListItemProps> = ({ topRightItem, topLeftItem, bottomRightItem, bottomLeftItem, ...rest }) => (
+	<Li {...rest}>
 		<ListItemTitle>{topLeftItem}</ListItemTitle>
 		<ListItemAction>{topRightItem}</ListItemAction>
 		<ListItemDescription>{bottomLeftItem}</ListItemDescription>
 		<ListItemDescription>{bottomRightItem}</ListItemDescription>
-	</Item>
+	</Li>
 );
 
 const ListItemTitlePlaceholder = styled.span(
@@ -96,7 +90,7 @@ interface ListItemPlaceholderProps {
 	bottomRight?: boolean;
 }
 
-export const ListItemPlaceholder: React.FC<ListItemPlaceholderProps> = ({
+const ItemPlaceholder: React.FC<ListItemPlaceholderProps> = ({
 	topLeft = true,
 	topRight = true,
 	bottomLeft = true,
@@ -109,3 +103,8 @@ export const ListItemPlaceholder: React.FC<ListItemPlaceholderProps> = ({
 		{bottomRight ? <ListItemDescriptionPlaceholder /> : <span />}
 	</Item>
 );
+
+export const List = {
+	Item,
+	ItemPlaceholder
+};

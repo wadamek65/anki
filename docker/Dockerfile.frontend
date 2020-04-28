@@ -8,7 +8,7 @@ COPY graphql/ /app/graphql/
 COPY codegen.yml package.json yarn.lock /app/
 
 RUN yarn install --frozen-lockfile
-RUN yarn typegen
+RUN yarn generate
 RUN cd frontend && TARGET=${TARGET} yarn build
 
 FROM nginx:alpine
