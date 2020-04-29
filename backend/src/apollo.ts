@@ -8,7 +8,7 @@ import * as config from '../config.json';
 import { DeckResolvers } from './__generated__/resolvers';
 import { Mutation } from './mutation';
 import { Query } from './query';
-import { authMiddleware, loginRoute } from './auth';
+import { authMiddleware, loginRoute, refreshTokenRoute } from './auth';
 import { Card } from './schemas';
 
 const Deck: DeckResolvers = {
@@ -48,6 +48,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(authMiddleware);
 app.post('/api/login', loginRoute);
+app.post('/api/login/refresh', refreshTokenRoute);
 
 server.applyMiddleware({ app, cors: corsOptions });
 

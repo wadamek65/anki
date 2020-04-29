@@ -16,13 +16,8 @@ const decks: Resolvers['decks'] = async (_parent, _args, { email }) => {
 	return Deck.find({ owner: email });
 };
 
-const user: Resolvers['user'] = async (_parent, _args, { name, email, picture }) => {
-	const userInfo = await DBUser.findOne({ email });
-	if (!userInfo) {
-		return await new DBUser({ email, name, avatar: picture }).save();
-	}
-
-	return userInfo;
+const user: Resolvers['user'] = async (_parent, _args, { email }) => {
+	return DBUser.findOne({ email });
 };
 
 export const Query: Resolvers = {

@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { Navigate } from 'react-router-dom';
 
-export class ErrorBoundary extends React.Component<{}, { hasError: boolean; error: any }> {
+export class ErrorBoundary extends React.Component<{}, { hasError: boolean }> {
 	state = {
-		hasError: false,
-		error: null
+		hasError: false
 	};
 
 	static getDerivedStateFromError(error: any) {
-		return { hasError: true, error };
+		console.error(error);
+		return { hasError: true };
 	}
 
 	render() {
-		if (this.state.hasError && this.state.error?.response?.status === 401) {
-			return <Navigate to={'/login'} />;
-		}
-
 		if (this.state.hasError) {
 			return <div>An unexpected error has occurred.</div>;
 		}

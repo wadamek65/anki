@@ -3,16 +3,19 @@ import * as React from 'react';
 import { GoogleLogin, GoogleLogout, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { useNavigate } from 'react-router';
 
-import { API_URL, CLIENT_ID } from '../../lib/config';
+import { CLIENT_ID } from '../../lib/config';
+
+export const REFRESH_TOKEN_KEY = 'refreshToken';
 
 export const Login: React.FC = () => {
 	const navigate = useNavigate();
 
 	const onSuccess = async (response: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void> => {
 		const code = (response as GoogleLoginResponseOffline).code;
-		await ky.post(`${API_URL}/api/login`, { credentials: 'include', headers: { 'google-code': code } });
-		//	TODO: handle error
-		navigate('/');
+		const res = await ky.post('/api/login', { credentials: 'include', headers: { 'google-code': code } });
+		const data = await res.json();
+		localStorage.setItem(REFRESH_TOKEN_KEY, data[REFRESH_TOKEN_KEY]);
+		navigate('/decks');
 	};
 
 	const onFailure = (error: any): void => console.error(error);

@@ -1,23 +1,23 @@
-import { Environment, FetchFunction, Network, RecordSource, Store } from 'relay-runtime';
+import { Environment, RecordSource, Store } from 'relay-runtime';
+import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-modern';
 import ky from 'ky';
 
-import { API_URL } from './config';
-
-const fetchRelay: FetchFunction = async (params, variables) => {
-	const response = await ky.post(`${API_URL}/graphql`, {
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		credentials: 'include',
-		json: {
-			query: params.text,
-			variables
-		}
-	});
-	return await response.json();
-};
+import { REFRESH_TOKEN_KEY } from '../views/Login';
 
 export const relayEnvironment = new Environment({
-	network: Network.create(fetchRelay),
+	network: new RelayNetworkLayer([
+		authMiddleware({
+			allowEmptyToken: true,
+			tokenRefreshPromise: async () => {
+				try {
+					const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY) || '';
+					await ky.post('/api/login/refresh', { headers: { 'refresh-token': refreshToken } });
+				} catch {
+					localStorage.removeItem(REFRESH_TOKEN_KEY);
+				}
+				return '';
+			}
+		})
+	]),
 	store: new Store(new RecordSource())
 });

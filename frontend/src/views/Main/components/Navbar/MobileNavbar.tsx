@@ -3,22 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import graphql from 'babel-plugin-relay/macro';
 import * as React from 'react';
 import { useNavigate } from 'react-router';
-import { preloadQuery, usePreloadedQuery } from 'react-relay/hooks';
+import { useLazyLoadQuery } from 'react-relay/hooks';
 
-import { relayEnvironment } from '../../../../lib/relay';
 import { MobileNavbarGetUserQuery } from './__generated__/MobileNavbarGetUserQuery.graphql';
 import { NavbarElements } from './elements';
-
-const GET_USER_QUERY = graphql`
-	query MobileNavbarGetUserQuery {
-		user {
-			avatar
-			name
-		}
-	}
-`;
-
-const preloadedQuery = preloadQuery<MobileNavbarGetUserQuery>(relayEnvironment, GET_USER_QUERY, {});
 
 const UserDataFallback: React.FC = () => (
 	<>
@@ -28,7 +16,17 @@ const UserDataFallback: React.FC = () => (
 );
 
 const UserData: React.FC = () => {
-	const data = usePreloadedQuery(GET_USER_QUERY, preloadedQuery);
+	const data = useLazyLoadQuery<MobileNavbarGetUserQuery>(
+		graphql`
+			query MobileNavbarGetUserQuery {
+				user {
+					avatar
+					name
+				}
+			}
+		`,
+		{}
+	);
 
 	return (
 		<>

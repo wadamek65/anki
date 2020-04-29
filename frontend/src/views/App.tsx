@@ -1,17 +1,13 @@
-import { ApolloClient, ApolloProvider, concat, HttpLink, InMemoryCache, ServerError } from '@apollo/client';
-import { onError } from '@apollo/link-error';
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components';
 
-import { API_URL } from '../lib/config';
 import { relayEnvironment } from '../lib/relay';
 import { theme } from '../lib/theme';
 import { Login } from './Login';
 import { Main } from './Main';
 import { Card, Deck, DeckList } from './Main/views';
-import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -38,43 +34,26 @@ const GlobalStyle = createGlobalStyle(
 	`
 );
 
-const logoutLink = onError(({ networkError }) => {
-	if ((networkError as ServerError)?.statusCode === 401) {
-		window.location.replace('/login');
-	}
-});
-
-const httpLink = new HttpLink({ uri: `${API_URL}/graphql`, credentials: 'include' });
-
-const apolloClient = new ApolloClient({
-	cache: new InMemoryCache(),
-	link: concat(logoutLink as any, httpLink)
-});
-
 export const App: React.FC = () => {
 	return (
-		<BrowserRouter>
-			<ApolloProvider client={apolloClient}>
+		<RelayEnvironmentProvider environment={relayEnvironment}>
+			<BrowserRouter>
 				<ThemeProvider theme={theme}>
 					<>
 						<GlobalStyle />
 						<Routes>
 							<Route path={'/login'} element={<Login />} />
 						</Routes>
-						<ErrorBoundary>
-							<RelayEnvironmentProvider environment={relayEnvironment}>
-								<Routes>
-									<Route path={'/'} element={<Main />}>
-										<Route path={'decks/'} element={<DeckList />} />
-										<Route path={'decks/:deckId/'} element={<Deck />} />
-										<Route path={'decks/:deckId/cards/:cardId'} element={<Card />} />
-									</Route>
-								</Routes>
-							</RelayEnvironmentProvider>
-						</ErrorBoundary>
+						<Routes>
+							<Route path={'/'} element={<Main />}>
+								<Route path={'decks/'} element={<DeckList />} />
+								<Route path={'decks/:deckId/'} element={<Deck />} />
+								<Route path={'decks/:deckId/cards/:cardId'} element={<Card />} />
+							</Route>
+						</Routes>
 					</>
 				</ThemeProvider>
-			</ApolloProvider>
-		</BrowserRouter>
+			</BrowserRouter>
+		</RelayEnvironmentProvider>
 	);
 };

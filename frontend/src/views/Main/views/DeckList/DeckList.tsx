@@ -23,7 +23,8 @@ const Decks: React.FC = () => {
 				}
 			}
 		`,
-		{}
+		{},
+		{ fetchPolicy: 'store-and-network' }
 	);
 
 	const sortedDecks = [...data.decks].reverse();

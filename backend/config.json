@@ -1,7 +1,8 @@
 {
   "app": {
-    "insecureDisableAuth": true,
-    "schemaPath": "../graphql/schema.graphql"
+    "insecureDisableAuth": false,
+    "schemaPath": "../graphql/schema.graphql",
+    "jwtSecret": "ca13cc88f3d41fa273c70df0942a470fef3db1cb6954a15cbb6516ab9365d3006cda8e6fdf3b930d408c2efc808acbc6"
   },
   "db": {
     "host": "mongodb://localhost/anki"
