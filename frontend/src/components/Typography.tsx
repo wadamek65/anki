@@ -1,7 +1,6 @@
-import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-const Title = styled.header(
+export const PageTitle = styled.header(
 	({ theme }) => css`
 		font-size: ${theme.font.size.title};
 		font-style: italic;
@@ -9,5 +8,3 @@ const Title = styled.header(
 		grid-column: 1 / -1;
 	`
 );
-
-export const PageTitle: React.FC = ({ children }) => <Title>{children}</Title>;

@@ -1,6 +1,6 @@
 import { QueryResolvers } from './__generated__/resolvers';
 import { AuthData } from './apollo';
-import { Card, Deck, User as DBUser } from './schemas';
+import { Card, Deck, Session, User as DBUser } from './schemas';
 
 type Resolvers = QueryResolvers<AuthData>;
 
@@ -20,9 +20,14 @@ const user: Resolvers['user'] = async (_parent, _args, { email }) => {
 	return DBUser.findOne({ email });
 };
 
+const studySession: Resolvers['studySession'] = async (parent, { id }, { email }) => {
+	return Session.findOne({ _id: id, owner: email });
+};
+
 export const Query: Resolvers = {
 	card,
 	deck,
 	decks,
-	user
+	user,
+	studySession
 };

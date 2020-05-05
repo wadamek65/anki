@@ -3,11 +3,11 @@ import { format } from 'date-fns';
 import * as React from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useLazyLoadQuery } from 'react-relay/hooks';
-import { useMutation } from 'react-relay/lib/relay-experimental';
+import { useLazyLoadQuery, useMutation } from 'react-relay/hooks';
 
-import { AddNewTextButton, List, PageTitle } from '../../../../components';
+import { AddNewTextButton, List } from '../../../../components';
 import { Input } from '../../../../components/Input';
+import { PageTitle } from '../../../../components/Typography';
 import { Grid, ListPlaceholder, GridSpan } from '../elements';
 import { DeckListGetDecksQuery } from './__generated__/DeckListGetDecksQuery.graphql';
 
@@ -32,11 +32,10 @@ const Decks: React.FC = () => {
 
 	return (
 		<>
-			{' '}
 			{sortedDecks.map(deck => (
 				<List.Item
 					key={deck.id}
-					topLeftItem={<Link to={deck.id}>{getTitle(deck.title)}</Link>}
+					topLeftItem={<Link to={`${deck.id}/cards`}>{getTitle(deck.title)}</Link>}
 					bottomLeftItem={`${deck.cardsAmount} cards`}
 					bottomRightItem={`Created at ${format(new Date(deck.createdAt), 'd.M.yyyy')}`}
 				/>
@@ -62,7 +61,7 @@ export const DeckList: React.FC = () => {
 		commitCreateDeck({
 			variables: { input: {} },
 			onCompleted: (data: any) => {
-				navigate(`/decks/${data.createDeck.deck.id}`);
+				navigate(`/decks/${data.createDeck.deck.id}/cards`);
 			}
 		});
 

@@ -24,10 +24,16 @@ const deckSchema = new mongoose.Schema({
 const sessionSchema = new mongoose.Schema({
 	startedAt: Number,
 	derivedDeckId: { type: mongoose.Schema.Types.ObjectId, required: true },
+	penalty: Number,
+	owner: { type: String, required: true },
 	questions: [
 		{
 			cardId: { type: mongoose.Schema.Types.ObjectId, required: true },
-			direction: { type: String, required: true },
+			word: { type: String, default: '' },
+			translations: [String],
+			note: { type: String, default: '' },
+			from: { type: String, default: '' },
+			to: { type: String, default: '' },
 			correctAnswers: { type: Number, default: 0 },
 			wrongAnswers: { type: Number, default: 0 },
 			answersLeft: { type: Number, default: 0 }

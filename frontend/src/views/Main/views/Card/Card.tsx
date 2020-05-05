@@ -2,24 +2,15 @@ import graphql from 'babel-plugin-relay/macro';
 import { useFormik } from 'formik';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router';
-import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useFragment, useLazyLoadQuery } from 'react-relay/hooks';
 import { useMutation } from 'react-relay/lib/relay-experimental';
 
 import { FlatButton, OutlinedButton } from '../../../../components/Button';
-import { Input, TextArea } from '../../../../components/Input';
+import { GridForm, Input, TextArea } from '../../../../components/Input';
 import { Grid, ReturnLink } from '../elements';
 import { Card_card$key } from './__generated__/Card_card.graphql';
 import { CardGetCardQuery } from './__generated__/CardGetCardQuery.graphql';
-
-const GridForm = styled.form(
-	({ theme }) => css`
-		display: grid;
-		grid-column: 1 / -1;
-		grid-row-gap: ${theme.spacing.medium};
-	`
-);
 
 const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 	const { cardId, deckId } = useParams();
@@ -165,9 +156,9 @@ const CardData: React.FC = () => {
 export const Card: React.FC = () => {
 	return (
 		<Grid>
-			<ReturnLink>
-				<Link to={-1}>Return</Link>
-			</ReturnLink>
+			<Link as={ReturnLink} to={'..'}>
+				Return
+			</Link>
 			{/* TODO: Add error boundary*/}
 			<React.Suspense fallback={<div>Loading card ...</div>}>
 				<CardData />

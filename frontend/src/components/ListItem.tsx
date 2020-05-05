@@ -63,25 +63,19 @@ const Item: React.FC<ListItemProps> = ({ topRightItem, topLeftItem, bottomRightI
 	</Li>
 );
 
-const ListItemTitlePlaceholder = styled.span(
-	({ theme }) => css`
-		height: 22px;
-		width: 100px;
-		margin-bottom: ${theme.spacing.tiny};
-		margin-top: ${theme.spacing.small};
-		${placeholderStyles}
-	`
-);
+const ListItemTitlePlaceholder = styled.span`
+	display: block;
+	height: 22px;
+	width: 100px;
+	${placeholderStyles}
+`;
 
-const ListItemDescriptionPlaceholder = styled.span(
-	({ theme }) => css`
-		height: 15px;
-		width: 150px;
-		margin-bottom: ${theme.spacing.small};
-		margin-top: ${theme.spacing.tiny};
-		${placeholderStyles}
-	`
-);
+const ListItemDescriptionPlaceholder = styled.span`
+	display: block;
+	height: 15px;
+	width: 150px;
+	${placeholderStyles}
+`;
 
 interface ListItemPlaceholderProps {
 	topLeft?: boolean;
@@ -96,12 +90,12 @@ const ItemPlaceholder: React.FC<ListItemPlaceholderProps> = ({
 	bottomLeft = true,
 	bottomRight = true
 }) => (
-	<Item>
-		{topLeft ? <ListItemTitlePlaceholder /> : <span />}
-		{topRight ? <ListItemTitlePlaceholder /> : <span />}
-		{bottomLeft ? <ListItemDescriptionPlaceholder /> : <span />}
-		{bottomRight ? <ListItemDescriptionPlaceholder /> : <span />}
-	</Item>
+	<Item
+		topLeftItem={topLeft ? <ListItemTitlePlaceholder /> : undefined}
+		topRightItem={topRight ? <ListItemTitlePlaceholder /> : undefined}
+		bottomLeftItem={bottomLeft ? <ListItemDescriptionPlaceholder /> : undefined}
+		bottomRightItem={bottomRight ? <ListItemDescriptionPlaceholder /> : undefined}
+	/>
 );
 
 export const List = {

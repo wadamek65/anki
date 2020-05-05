@@ -72,15 +72,13 @@ enum StudyDirection {
     BOTH
 }
 
-input SessionOptions {
-    direction: StudyDirection!
-    repeatNumber: Int!
-    penalty: Int!
-}
-
 type Question {
     cardId: ID!
-    direction: StudyDirection!
+    word: String!
+    translations: [String!]!
+    from: String!
+    to: String!
+    note: String!
     correctAnswers: Int!
     wrongAnswers: Int!
     answersLeft: Int!
@@ -88,9 +86,21 @@ type Question {
 
 type StudySession implements Node {
     id: ID!
-    startedAt: Int!
+    startedAt: Float!
     derivedDeckId: ID!
+    penalty: Int!
     questions: [Question!]!
+}
+
+input StartStudySessionInput {
+    deckId: ID!
+    direction: StudyDirection!
+    repeatNumber: Int!
+    penalty: Int!
+}
+
+type StartStudySessionPayload {
+    session: StudySession!
 }
 
 type Query {
@@ -98,6 +108,7 @@ type Query {
     decks: [Deck!]!
     deck(id: ID!): Deck!
     card(id: ID!): Card!
+    studySession(id: ID!): StudySession!
     node(id: ID!): Node!
 }
 
@@ -105,7 +116,7 @@ type Mutation {
     createDeck(input: CreateDeckInput): CreateDeckPayload!
     createCard(input: CreateCardInput!): CreateCardPayload!
     updateCard(input: UpdateCardInput!): UpdateCardPayload!
-#    startStudySession(deckId: ID!, sessionOptions: SessionOptions!): StudySession!
+    startStudySession(input: StartStudySessionInput!): StartStudySessionPayload!
 }
 
 schema {

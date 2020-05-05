@@ -16,7 +16,7 @@ export const GridSpan = styled.ul`
 	grid-column: 1 / -1;
 `;
 
-export const ReturnLink = styled.div(
+export const ReturnLink = styled.a(
 	({ theme }) => css`
 		border-bottom: 0.5px solid ${theme.color.primary[0]};
 		color: ${theme.color.primary[0]};

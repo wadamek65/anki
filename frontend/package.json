@@ -12,11 +12,11 @@
     "react": "^0.0.0-experimental-e5d06e34b",
     "react-dom": "^0.0.0-experimental-e5d06e34b",
     "react-google-login": "^5.0.7",
-    "react-relay": "^0.0.0-experimental-8cc94ddc",
+    "react-relay": "^0.0.0-experimental-895a6fe0",
     "react-relay-network-modern": "^4.6.1",
     "react-router": "^6.0.0-alpha.3",
     "react-router-dom": "^6.0.0-alpha.3",
-    "relay-runtime": "^9.0.0",
+    "relay-runtime": "0.0.0-master-2f59a952",
     "styled-components": "^5.1.0",
     "typeface-montserrat": "^0.0.75"
   },

@@ -1,17 +1,19 @@
 import graphql from 'babel-plugin-relay/macro';
 import * as React from 'react';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Link, Route, Routes } from 'react-router-dom';
 
-import { PageTitle } from '../../../../components';
+import { FlatButton } from '../../../../components/Button';
 import { ErrorBoundary } from '../../../../components/ErrorBoundary';
+import { PageTitle } from '../../../../components/Typography';
 import { Grid, ReturnLink } from '../elements';
 import { DeckDeckDataQuery } from './__generated__/DeckDeckDataQuery.graphql';
 import { CardList } from './views/CardList';
 
 export const DeckData: React.FC = () => {
 	const { deckId } = useParams();
+	const navigate = useNavigate();
 
 	const data = useLazyLoadQuery<DeckDeckDataQuery>(
 		graphql`
@@ -28,8 +30,9 @@ export const DeckData: React.FC = () => {
 	return (
 		<>
 			<PageTitle>{data.deck.title || 'Untitled deck'}</PageTitle>
+			<FlatButton onClick={() => navigate(`/study/${deckId}`)}>Study this deck</FlatButton>
 			<Routes>
-				<Route path={'/'} element={<CardList deck={data.deck} />} />
+				<Route path={'cards'} element={<CardList deck={data.deck} />} />
 			</Routes>
 		</>
 	);
@@ -38,9 +41,9 @@ export const DeckData: React.FC = () => {
 export const Deck: React.FC = () => {
 	return (
 		<Grid>
-			<ReturnLink>
-				<Link to={-1}>Return</Link>
-			</ReturnLink>
+			<Link as={ReturnLink} to={'..'}>
+				Return
+			</Link>
 			{/* TODO: Add error boundary*/}
 			<ErrorBoundary>
 				<React.Suspense fallback={<div>Loading deck ...</div>}>

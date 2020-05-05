@@ -8,6 +8,8 @@ import { theme } from '../lib/theme';
 import { Login } from './Login';
 import { Main } from './Main';
 import { Card, Deck, DeckList } from './Main/views';
+import { Study } from './Main/views/Study';
+import { StudySession } from './Main/views/StudySession';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -46,9 +48,11 @@ export const App: React.FC = () => {
 						</Routes>
 						<Routes>
 							<Route path={'/'} element={<Main />}>
-								<Route path={'decks/'} element={<DeckList />} />
-								<Route path={'decks/:deckId/'} element={<Deck />} />
+								<Route path={'decks'} element={<DeckList />} />
+								<Route path={'decks/:deckId/*'} element={<Deck />} />
 								<Route path={'decks/:deckId/cards/:cardId'} element={<Card />} />
+								<Route path={'study/:deckId'} element={<Study />} />
+								<Route path={'study/session/:sessionId'} element={<StudySession />} />
 							</Route>
 						</Routes>
 					</>

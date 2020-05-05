@@ -2,6 +2,14 @@ import * as React from 'react';
 // eslint-disable-next-line import/named
 import styled, { css, DefaultTheme } from 'styled-components';
 
+export const GridForm = styled.form(
+	({ theme }) => css`
+		display: grid;
+		grid-column: 1 / -1;
+		grid-row-gap: ${theme.spacing.medium};
+	`
+);
+
 const commonStyles = ({ theme }: { theme: DefaultTheme }) => css`
 	background-color: ${theme.color.white};
 	box-sizing: border-box;
@@ -24,6 +32,7 @@ const commonStyles = ({ theme }: { theme: DefaultTheme }) => css`
 		font-weight: ${theme.font.weight.regular};
 	}
 `;
+
 const Label = styled.label(
 	({ theme }) => css`
 		color: ${theme.color.primary[0]};

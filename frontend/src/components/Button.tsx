@@ -10,6 +10,7 @@ const StyledButton = styled.button(
 		color: ${theme.color.white};
 		cursor: pointer;
 		font-weight: ${theme.font.weight.semiBold};
+		grid-column: 1 / -1;
 		padding: 8px 16px;
 		text-align: center;
 	`

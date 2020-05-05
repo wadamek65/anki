@@ -9,6 +9,18 @@ export const theme = {
 			3: '#D2BBF5',
 			4: '#F7F1FF'
 		},
+		secondary: {
+			0: '#0091EA',
+			1: '#00B0FF',
+			2: '#40C4FF',
+			3: '#80D8FF'
+		},
+		tertiary: {
+			0: '#FF6D00',
+			1: '#FF9100',
+			2: '#FFAB40',
+			3: '#FFD180'
+		},
 		gray: {
 			0: '#636363',
 			1: '#868686',
@@ -16,7 +28,10 @@ export const theme = {
 			3: '#CECECE',
 			4: '#e9e9e9'
 		},
-		white: '#fff'
+		white: '#fff',
+		green: '#47C74C',
+		red: '#ff5200',
+		yellow: '#ffcd4c'
 	},
 	font: {
 		weight: {

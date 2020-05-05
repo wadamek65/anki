@@ -1,9 +1,8 @@
 import graphql from 'babel-plugin-relay/macro';
 import * as React from 'react';
-import { useFragment } from 'react-relay/hooks';
+import { useFragment, useMutation } from 'react-relay/hooks';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useMutation } from 'react-relay/lib/relay-experimental';
 
 import { CardList_cards$key } from './__generated__/CardList_cards.graphql';
 import { Input } from '../../../../../../components/Input';
@@ -43,7 +42,7 @@ export const CardList: React.FC<{ deck: CardList_cards$key }> = ({ deck }) => {
 	const createCard = () =>
 		commitCreateCard({
 			variables: { input: { deckId } },
-			onCompleted: (data: any) => navigate(`cards/${data.createCard.card.id}`)
+			onCompleted: (data: any) => navigate(data.createCard.card.id)
 		});
 
 	return (
@@ -55,7 +54,7 @@ export const CardList: React.FC<{ deck: CardList_cards$key }> = ({ deck }) => {
 				{data.cards.map(card => (
 					<List.Item
 						key={card.id}
-						topLeftItem={<Link to={`cards/${card.id}`}>{getCardTitle(card.word)}</Link>}
+						topLeftItem={<Link to={card.id}>{getCardTitle(card.word)}</Link>}
 						bottomLeftItem={card.language.original}
 						bottomRightItem={card.language.learning}
 					/>
