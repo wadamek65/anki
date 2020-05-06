@@ -10,14 +10,14 @@ import { GridForm, Input } from '../../../../components/Input';
 import { FlatButton } from '../../../../components/Button';
 import {
 	StartStudySessionInput,
-	StudyStartStudySessionMutationResponse
+	StudyStartStudySessionMutation
 } from './__generated__/StudyStartStudySessionMutation.graphql';
 
 export const Study: React.FC = () => {
 	const { deckId } = useParams();
 	const navigate = useNavigate();
 
-	const [commitStartStudySession] = useMutation(graphql`
+	const [commitStartStudySession] = useMutation<StudyStartStudySessionMutation>(graphql`
 		mutation StudyStartStudySessionMutation($input: StartStudySessionInput!) {
 			startStudySession(input: $input) {
 				session {
@@ -37,8 +37,7 @@ export const Study: React.FC = () => {
 		onSubmit: values => {
 			commitStartStudySession({
 				variables: { input: values },
-				onCompleted: (data: StudyStartStudySessionMutationResponse) =>
-					navigate(`/study/session/${data.startStudySession.session.id}`)
+				onCompleted: data => navigate(`/study/session/${data.startStudySession.session.id}`)
 			});
 		}
 	});

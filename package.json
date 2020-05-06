@@ -5,10 +5,14 @@
     "frontend"
   ],
   "scripts": {
-    "lint": "yarn lint:frontend && yarn lint:backend",
-    "lint:frontend": "eslint frontend/src --ext .js,.jsx,.ts,.tsx",
-    "lint:backend": "eslint backend/src --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "yarn lint:frontend --fix && yarn lint:backend --fix",
+    "lint": "yarn lint:eslint && yarn lint:tsc",
+    "lint:tsc": "yarn tsc:frontend && yarn tsc:backend",
+    "lint:eslint": "yarn eslint:frontend && yarn eslint:backend",
+    "eslint:frontend": "eslint frontend/src --ext .js,.jsx,.ts,.tsx",
+    "eslint:backend": "eslint backend/src --ext .js,.jsx,.ts,.tsx",
+    "eslint:fix": "yarn lint:frontend --fix && yarn lint:backend --fix",
+    "tsc:frontend": "cd frontend && tsc",
+    "tsc:backend": "cd backend && tsc",
     "generate": "yarn generate:frontend && yarn generate:backend",
     "generate:frontend": "yarn --cwd frontend relay",
     "generate:backend": "yarn --cwd backend typegen"
@@ -24,6 +28,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "eslint-plugin-relay": "^1.7.0",
+    "relay-compiler-language-typescript": "^12.0.2",
     "prettier": "^2.0.5"
   }
 }

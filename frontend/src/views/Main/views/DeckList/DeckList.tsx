@@ -57,13 +57,14 @@ export const DeckList: React.FC = () => {
 		}
 	`);
 
-	const createNewDeck = (): void =>
+	const createNewDeck = (): void => {
 		commitCreateDeck({
 			variables: { input: {} },
 			onCompleted: (data: any) => {
 				navigate(`/decks/${data.createDeck.deck.id}/cards`);
 			}
 		});
+	};
 
 	return (
 		<Grid>

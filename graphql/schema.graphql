@@ -56,10 +56,10 @@ type CreateCardPayload {
 
 input UpdateCardInput {
     cardId: ID!
-    language: LanguageInput
-    word: String
-    translations: [String!]
-    note: String
+    language: LanguageInput!
+    word: String!
+    translations: [String!]!
+    note: String!
 }
 
 type UpdateCardPayload {
