@@ -12,7 +12,8 @@ pipeline {
                 }
             }
             steps {
-                sh "yarn"
+                sh "yarn --frozen-lockfile"
+                sh "rm -rf `find -type d -name __generated__`"
                 sh "yarn generate"
                 sh "yarn lint"
             }

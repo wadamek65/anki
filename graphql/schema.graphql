@@ -2,14 +2,20 @@ interface Node {
     id: ID!
 }
 
-type Language {
-    original: String!
-    learning: String!
+type Language implements Node {
+    id: ID!
+    name: String!
+    color: String!
+}
+
+type Languages {
+    original: Language!
+    learning: Language!
 }
 
 type Card implements Node{
     id: ID!
-    language: Language!
+    language: Languages!
     word: String!
     translations: [String!]!
     note: String!
@@ -23,10 +29,15 @@ type Deck implements Node {
     cardsAmount: Int!
 }
 
+type AppSettings {
+    languages: [Language!]!
+}
+
 type User {
     name: String!
     email: String!
     avatar: String!
+    appSettings: AppSettings!
 }
 
 input CreateDeckInput {
@@ -37,14 +48,13 @@ type CreateDeckPayload {
     deck: Deck!
 }
 
-input LanguageInput {
-    original: String!
-    learning: String!
+input ChangeLanguageInput {
+    original: ID!
+    learning: ID!
 }
 
 input CreateCardInput {
     deckId: ID!
-    language: LanguageInput = { original: "", learning: "" }
     word: String = ""
     translations: [String!] = []
     note: String = ""
@@ -56,7 +66,7 @@ type CreateCardPayload {
 
 input UpdateCardInput {
     cardId: ID!
-    language: LanguageInput!
+    language: ChangeLanguageInput!
     word: String!
     translations: [String!]!
     note: String!
@@ -76,8 +86,8 @@ type Question {
     cardId: ID!
     word: String!
     translations: [String!]!
-    from: String!
-    to: String!
+    from: Language!
+    to: Language!
     note: String!
     correctAnswers: Int!
     wrongAnswers: Int!
@@ -103,6 +113,29 @@ type StartStudySessionPayload {
     session: StudySession!
 }
 
+input AddLanguageInput {
+    name: String!
+    color: String!
+}
+
+type LanguagePayload {
+    language: Language!
+}
+
+input UpdateLanguageInput {
+    id: ID!
+    name: String!
+    color: String!
+}
+
+input RemoveLanguageInput {
+    languageId: ID!
+}
+
+type RemoveLanguagePayload {
+    languageId: ID!
+}
+
 type Query {
     user: User!
     decks: [Deck!]!
@@ -117,6 +150,9 @@ type Mutation {
     createCard(input: CreateCardInput!): CreateCardPayload!
     updateCard(input: UpdateCardInput!): UpdateCardPayload!
     startStudySession(input: StartStudySessionInput!): StartStudySessionPayload!
+    addLanguage(input: AddLanguageInput!): LanguagePayload!
+    updateLanguage(input: UpdateLanguageInput!): LanguagePayload!
+    removeLanguage(input: RemoveLanguageInput!): RemoveLanguagePayload!
 }
 
 schema {

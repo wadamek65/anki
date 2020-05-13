@@ -23,9 +23,9 @@ const Question = styled.div(
 	`
 );
 
-const FromLanguage = styled.div(
-	({ theme }) => css`
-		color: ${theme.color.secondary[0]};
+const FromLanguage = styled.div<{ color: string }>(
+	({ theme, color }) => css`
+		color: ${color};
 		font-size: 20px;
 		font-weight: ${theme.font.weight.medium};
 		margin-bottom: 30px;
@@ -33,9 +33,9 @@ const FromLanguage = styled.div(
 	`
 );
 
-const ToLanguage = styled.div(
-	({ theme }) => css`
-		color: ${theme.color.tertiary[0]};
+const ToLanguage = styled.div<{ color: string }>(
+	({ theme, color }) => css`
+		color: ${color};
 		font-size: 26px;
 		font-weight: ${theme.font.weight.semiBold};
 		margin-bottom: 24px;

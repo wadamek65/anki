@@ -1,5 +1,9 @@
 import * as mongoose from 'mongoose';
 
+import { Language } from './__generated__/resolvers';
+
+type LanguageDocument = Language & mongoose.Types.Subdocument;
+
 interface DocumentWithId extends mongoose.Document {
 	id: string;
 }
@@ -80,16 +84,27 @@ const sessionSchema = new mongoose.Schema({
 	]
 });
 
-interface UserSchema extends DocumentWithId {
+export interface UserSchema extends DocumentWithId {
 	name: string;
 	avatar: string;
 	email: string;
+	appSettings: {
+		languages: mongoose.Types.DocumentArray<LanguageDocument>;
+	};
 }
+
+export const languageSchema = new mongoose.Schema({
+	name: String,
+	color: String
+});
 
 const userSchema = new mongoose.Schema({
 	name: { type: String, required: true },
 	avatar: { type: String },
-	email: { type: String, required: true }
+	email: { type: String, required: true },
+	appSettings: {
+		languages: [languageSchema]
+	}
 });
 
 export const User: mongoose.Model<UserSchema> = mongoose.models.user || mongoose.model('user', userSchema);

@@ -10,7 +10,7 @@
     "lint:eslint": "yarn eslint:frontend && yarn eslint:backend",
     "eslint:frontend": "eslint frontend/src --ext .js,.jsx,.ts,.tsx",
     "eslint:backend": "eslint backend/src --ext .js,.jsx,.ts,.tsx",
-    "eslint:fix": "yarn lint:frontend --fix && yarn lint:backend --fix",
+    "eslint:fix": "yarn eslint:frontend --fix && yarn eslint:backend --fix",
     "tsc:frontend": "cd frontend && tsc",
     "tsc:backend": "cd backend && tsc",
     "generate": "yarn generate:frontend && yarn generate:backend",

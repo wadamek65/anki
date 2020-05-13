@@ -19,8 +19,12 @@ export const CardList: React.FC<{ deck: CardList_cards$key }> = ({ deck }) => {
 					id
 					word
 					language {
-						learning
-						original
+						learning {
+							name
+						}
+						original {
+							name
+						}
 					}
 				}
 			}
@@ -52,12 +56,13 @@ export const CardList: React.FC<{ deck: CardList_cards$key }> = ({ deck }) => {
 			<AddNewTextButton onClick={createCard}>Create new card</AddNewTextButton>
 			<GridSpan>
 				{data.cards.map(card => (
-					<List.Item
-						key={card.id}
-						topLeftItem={<Link to={card.id}>{getCardTitle(card.word)}</Link>}
-						bottomLeftItem={card.language.original}
-						bottomRightItem={card.language.learning}
-					/>
+					<Link to={card.id} key={card.id}>
+						<List.Item
+							topLeftItem={getCardTitle(card.word)}
+							bottomLeftItem={card.language.original.name}
+							bottomRightItem={card.language.learning.name}
+						/>
+					</Link>
 				))}
 			</GridSpan>
 		</>

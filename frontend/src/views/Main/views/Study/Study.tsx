@@ -4,14 +4,22 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation } from 'react-relay/hooks';
 
-import { Grid } from '../elements';
 import { PageTitle } from '../../../../components/Typography';
-import { GridForm, Input } from '../../../../components/Input';
+import { GridForm, Input, Select } from '../../../../components/Input';
 import { FlatButton } from '../../../../components/Button';
+import { Grid } from '../elements';
 import {
 	StartStudySessionInput,
 	StudyStartStudySessionMutation
 } from './__generated__/StudyStartStudySessionMutation.graphql';
+
+const StudyDirection = {
+	Both: 'Both',
+	Standard: 'Standard',
+	Reverse: 'Reverse'
+};
+
+const selectOptions = Object.keys(StudyDirection).map(key => ({ label: key, value: key.toUpperCase() }));
 
 export const Study: React.FC = () => {
 	const { deckId } = useParams();
@@ -27,7 +35,7 @@ export const Study: React.FC = () => {
 		}
 	`);
 
-	const { handleChange, values, handleSubmit } = useFormik<StartStudySessionInput>({
+	const { handleChange, values, handleSubmit, setFieldValue } = useFormik<StartStudySessionInput>({
 		initialValues: {
 			repeatNumber: 3,
 			deckId,
@@ -61,12 +69,13 @@ export const Study: React.FC = () => {
 					onChange={handleChange}
 					value={values.penalty}
 				/>
-				<Input
+				<Select
 					label="Study Direction"
 					name="direction"
 					placeholder="Whether you want to study original/learning language or both (2 times more questions)"
-					onChange={handleChange}
-					value={values.direction}
+					onChange={value => setFieldValue('direction', (value as any).value)}
+					options={selectOptions}
+					defaultValue={{ value: StudyDirection.Standard.toUpperCase(), label: StudyDirection.Standard }}
 				/>
 				<FlatButton type="submit">Start Study Sesssion</FlatButton>
 			</GridForm>

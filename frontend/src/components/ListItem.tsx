@@ -7,6 +7,7 @@ const Li = styled.li(
 	({ theme }) => css`
 		align-items: center;
 		border-top: 1px solid ${theme.color.gray[3]};
+		cursor: pointer;
 		display: grid;
 		grid-column: 1 / -1;
 		grid-template-columns: 1fr 1fr;
@@ -20,7 +21,6 @@ const Li = styled.li(
 const ListItemTitle = styled.h1(
 	({ theme }) => css`
 		color: ${theme.color.gray[0]};
-		cursor: pointer;
 		font-size: ${theme.font.size.medium};
 		font-weight: ${theme.font.weight.semiBold};
 		margin-bottom: ${theme.spacing.tiny};

@@ -33,12 +33,13 @@ const Decks: React.FC = () => {
 	return (
 		<>
 			{sortedDecks.map(deck => (
-				<List.Item
-					key={deck.id}
-					topLeftItem={<Link to={`${deck.id}/cards`}>{getTitle(deck.title)}</Link>}
-					bottomLeftItem={`${deck.cardsAmount} cards`}
-					bottomRightItem={`Created at ${format(new Date(deck.createdAt), 'd.M.yyyy')}`}
-				/>
+				<Link to={`${deck.id}/cards`} key={deck.id}>
+					<List.Item
+						topLeftItem={getTitle(deck.title)}
+						bottomLeftItem={`${deck.cardsAmount} cards`}
+						bottomRightItem={`Created at ${format(new Date(deck.createdAt), 'd.M.yyyy')}`}
+					/>
+				</Link>
 			))}
 		</>
 	);

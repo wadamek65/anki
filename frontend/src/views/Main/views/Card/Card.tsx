@@ -7,14 +7,28 @@ import { useFragment, useLazyLoadQuery } from 'react-relay/hooks';
 import { useMutation } from 'react-relay/lib/relay-experimental';
 
 import { FlatButton, OutlinedButton } from '../../../../components/Button';
-import { GridForm, Input, TextArea } from '../../../../components/Input';
+import { GridForm, Input, Select, TextArea } from '../../../../components/Input';
 import { Grid, ReturnLink } from '../elements';
 import { Card_card$key } from './__generated__/Card_card.graphql';
 import { CardGetCardQuery } from './__generated__/CardGetCardQuery.graphql';
+import { CardGetLanguagesQuery } from './__generated__/CardGetLanguagesQuery.graphql';
+import { Card_appSettings$key } from './__generated__/Card_appSettings.graphql';
 
-const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
+const EditForm: React.FC<{ card: Card_card$key; appSettings: Card_appSettings$key }> = ({ card, appSettings }) => {
 	const { cardId, deckId } = useParams();
 	const navigate = useNavigate();
+
+	const languagesData = useFragment<Card_appSettings$key>(
+		graphql`
+			fragment Card_appSettings on AppSettings {
+				languages {
+					id
+					name
+				}
+			}
+		`,
+		appSettings
+	);
 
 	const data = useFragment<Card_card$key>(
 		graphql`
@@ -23,8 +37,14 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 				translations
 				note
 				language {
-					learning
-					original
+					learning {
+						name
+						id
+					}
+					original {
+						name
+						id
+					}
 				}
 			}
 		`,
@@ -51,8 +71,15 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 		}
 	`);
 
-	const initialValues = { ...data, translations: data.translations.join(',') };
-	const { handleChange, values, handleSubmit, setValues } = useFormik({
+	const initialValues = {
+		...data,
+		translations: data.translations.join(','),
+		language: {
+			learning: data.language.learning.id,
+			original: data.language.original.id
+		}
+	};
+	const { handleChange, values, handleSubmit, setValues, setFieldValue } = useFormik({
 		initialValues,
 		onSubmit: cardValues =>
 			commitUpdateCard({
@@ -68,6 +95,7 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 
 	const saveCard = (): void => {
 		handleSubmit();
+		navigate('..');
 	};
 
 	const saveAndCreateCard = async (): Promise<void> => {
@@ -76,16 +104,15 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 			variables: {
 				input: {
 					deckId,
-					language: {
-						original: values.language.original,
-						learning: values.language.learning
-					}
+					...values
 				}
 			},
 			onCompleted: (data: any) => navigate(`../${data.createCard.card.id}`)
 		});
 		setValues({ ...initialValues, language: values.language });
 	};
+
+	const languageOptions = languagesData.languages.map(language => ({ label: language.name, value: language.id }));
 
 	return (
 		<GridForm onSubmit={e => e.preventDefault()}>
@@ -103,19 +130,17 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 				value={values.translations}
 				placeholder="Translations (if multiple split by a comma)"
 			/>
-			<Input
+			<Select
 				label="Original Language"
-				name="language.original"
-				onChange={handleChange}
-				value={values.language.original}
-				placeholder="Original word language"
+				options={languageOptions}
+				onChange={value => setFieldValue('language.original', (value as any).value)}
+				defaultValue={{ value: data.language.original.id, label: data.language.original.name }}
 			/>
-			<Input
+			<Select
 				label="Learning Language"
-				name="language.learning"
-				onChange={handleChange}
-				value={values.language.learning}
-				placeholder="The language you are trying to learn"
+				options={languageOptions}
+				onChange={value => setFieldValue('language.learning', (value as any).value)}
+				defaultValue={{ value: data.language.learning.id, label: data.language.learning.name }}
 			/>
 			<TextArea
 				label="Note"
@@ -125,7 +150,6 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 				placeholder="Additional notes"
 				type="textarea"
 			/>
-
 			<FlatButton type="submit" onClick={saveCard} name="save">
 				Save card
 			</FlatButton>
@@ -139,7 +163,7 @@ const EditForm: React.FC<{ card: Card_card$key }> = ({ card }) => {
 const CardData: React.FC = () => {
 	const { cardId } = useParams();
 
-	const data = useLazyLoadQuery<CardGetCardQuery>(
+	const cardData = useLazyLoadQuery<CardGetCardQuery>(
 		graphql`
 			query CardGetCardQuery($id: ID!) {
 				card(id: $id) {
@@ -150,7 +174,20 @@ const CardData: React.FC = () => {
 		{ id: cardId }
 	);
 
-	return <EditForm card={data.card} />;
+	const languagesData = useLazyLoadQuery<CardGetLanguagesQuery>(
+		graphql`
+			query CardGetLanguagesQuery {
+				user {
+					appSettings {
+						...Card_appSettings
+					}
+				}
+			}
+		`,
+		{}
+	);
+
+	return <EditForm card={cardData.card} appSettings={languagesData.user.appSettings} />;
 };
 
 export const Card: React.FC = () => {

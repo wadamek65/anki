@@ -54,11 +54,16 @@ export const refreshTokenRoute: RequestHandler = async (req, res) => {
 
 export const authMiddleware: RequestHandler = async (req, res, next) => {
 	if (config.app.insecureDisableAuth) {
-		(req as any).user = {
+		const testUser = {
 			email: 'senko@mail.com',
 			name: 'Senko-san',
-			picture: 'https://i1.sndcdn.com/artworks-000538759875-dixn7z-t500x500.jpg'
+			avatar: 'https://i1.sndcdn.com/artworks-000538759875-dixn7z-t500x500.jpg',
+			appSettings: { languages: [] }
 		};
+		(req as any).user = await User.findOne({ email: testUser.email });
+		if (!(req as any).user) {
+			(req as any).user = await new User(testUser).save();
+		}
 		return next();
 	}
 

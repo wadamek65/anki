@@ -1,14 +1,13 @@
 import { MutationResolvers, Question, StudyDirection } from './__generated__/resolvers';
-import { AuthData } from './apollo';
-import { Card, Deck, Session } from './schemas';
+import { Card, Deck, Session, UserSchema } from './schemas';
 
-type Resolvers = MutationResolvers<AuthData>;
+type Resolvers = MutationResolvers<UserSchema>;
 
 const createCard: Resolvers['createCard'] = async (parent, { input }, { email }) => {
 	const { deckId, ...card } = input;
 	const newCard = await new Card({ ...card, owner: email }).save();
 	await Deck.updateOne({ _id: deckId, owner: email }, { $push: { cards: newCard._id } });
-	return { card: newCard };
+	return { card: newCard } as any;
 };
 
 const createDeck: Resolvers['createDeck'] = async (parent, { input }, { email }) => {
@@ -48,8 +47,8 @@ const startStudySession: Resolvers['startStudySession'] = async (parent, { input
 				...baseCard,
 				word: card.word,
 				translations: card.translations,
-				from: card.language.original,
-				to: card.language.learning
+				from: card.language.learning,
+				to: card.language.original
 			});
 		}
 
@@ -58,8 +57,8 @@ const startStudySession: Resolvers['startStudySession'] = async (parent, { input
 				...baseCard,
 				word: card.translations[0],
 				translations: [card.word],
-				to: card.language.original,
-				from: card.language.learning
+				to: card.language.learning,
+				from: card.language.original
 			});
 		}
 
@@ -77,9 +76,33 @@ const startStudySession: Resolvers['startStudySession'] = async (parent, { input
 	return { session } as any;
 };
 
+const addLanguage: Resolvers['addLanguage'] = async (parent, { input: { name, color } }, user) => {
+	const newLanguage = user.appSettings.languages.create({ name, color });
+	user.appSettings.languages.push(newLanguage);
+	await user.save();
+	return { language: newLanguage };
+};
+
+const updateLanguage: Resolvers['updateLanguage'] = async (parent, { input }, user) => {
+	const language = user.appSettings.languages.id(input.id);
+	language.name = input.name;
+	language.color = input.color;
+	await user.save();
+	return { language };
+};
+
+const removeLanguage: Resolvers['removeLanguage'] = async (parent, { input: { languageId } }, user) => {
+	user.appSettings.languages.pull(languageId);
+	await user.save();
+	return { languageId };
+};
+
 export const Mutation: Resolvers = {
+	addLanguage,
 	createCard,
 	createDeck,
 	updateCard,
+	updateLanguage,
+	removeLanguage,
 	startStudySession
 };

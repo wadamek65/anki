@@ -9,16 +9,7 @@ import { OutlinedButton } from '../../../../components/Button';
 import { StudySessionGetStudySessionQuery } from './__generated__/StudySessionGetStudySessionQuery.graphql';
 import { Test } from './elements';
 
-interface Question {
-	readonly cardId: string;
-	readonly answersLeft: number;
-	readonly correctAnswers: number;
-	readonly wrongAnswers: number;
-	readonly from: string;
-	readonly to: string;
-	readonly translations: ReadonlyArray<string>;
-	readonly word: string;
-}
+type Questions = StudySessionGetStudySessionQuery['response']['studySession']['questions'];
 
 const useStudySession = (id: string) => {
 	const { studySession } = useLazyLoadQuery<StudySessionGetStudySessionQuery>(
@@ -33,8 +24,14 @@ const useStudySession = (id: string) => {
 						answersLeft
 						correctAnswers
 						wrongAnswers
-						from
-						to
+						from {
+							name
+							color
+						}
+						to {
+							name
+							color
+						}
 						translations
 						word
 						#						note
@@ -45,8 +42,8 @@ const useStudySession = (id: string) => {
 		{ id }
 	);
 
-	const [questions, setQuestions] = React.useState<readonly Question[]>(studySession.questions);
-	const [currentQuestion, setCurrentQuestion] = React.useState<Question | null>(null);
+	const [questions, setQuestions] = React.useState<Questions>(studySession.questions);
+	const [currentQuestion, setCurrentQuestion] = React.useState<Questions[number] | null>(null);
 
 	React.useEffect(() => {
 		const questionArray = questions.filter(question => question.answersLeft > 0);
@@ -115,10 +112,10 @@ const SessionContent: React.FC = () => {
 			<Test.Container>
 				<Test.Explanation>Translate</Test.Explanation>
 				<Test.Question>{currentQuestion.word}</Test.Question>
-				<Test.Explanation>From language</Test.Explanation>
-				<Test.FromLanguage>{currentQuestion.from}</Test.FromLanguage>
-				<Test.Explanation>To language</Test.Explanation>
-				<Test.ToLanguage>{currentQuestion.to}</Test.ToLanguage>
+				<Test.Explanation>From</Test.Explanation>
+				<Test.FromLanguage color={currentQuestion.from.color}>{currentQuestion.from.name}</Test.FromLanguage>
+				<Test.Explanation>To</Test.Explanation>
+				<Test.ToLanguage color={currentQuestion.to.color}>{currentQuestion.to.name}</Test.ToLanguage>
 				{!shouldShowAnswer && <OutlinedButton onClick={() => setShouldShowAnswer(true)}>Show Answer</OutlinedButton>}
 				{shouldShowAnswer && (
 					<>

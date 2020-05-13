@@ -1,6 +1,9 @@
 import * as React from 'react';
+import ReactSelect, { Props as SelectProps } from 'react-select';
 // eslint-disable-next-line import/named
 import styled, { css, DefaultTheme } from 'styled-components';
+
+import { FlatButton } from './Button';
 
 export const GridForm = styled.form(
 	({ theme }) => css`
@@ -17,11 +20,13 @@ const commonStyles = ({ theme }: { theme: DefaultTheme }) => css`
 	border-radius: 4px;
 	color: #000;
 	cursor: text;
+	font-size: 16px;
 	font-weight: ${theme.font.weight.medium};
 	grid-column: 1 / -1;
-	min-height: 30px;
+	height: 38px;
+	min-height: 38px;
 	padding: 8px;
-	height: 30px;
+	width: 100%;
 
 	&:focus {
 		border: 0.5px solid ${theme.color.primary[0]};
@@ -54,6 +59,13 @@ const CustomTextArea = styled.textarea(
 	`
 );
 
+export const Select: React.FC<SelectProps & { label: string }> = ({ label, ...props }) => (
+	<Label>
+		{label}
+		<ReactSelect {...props} />
+	</Label>
+);
+
 type InputProps = { label: string } & React.InputHTMLAttributes<HTMLInputElement>;
 type TextAreaProps = { label: string } & React.InputHTMLAttributes<HTMLTextAreaElement>;
 
@@ -66,11 +78,47 @@ export const Input: React.FC<InputProps> = ({ label, ...props }) => {
 	);
 };
 
+export const NoLabelInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = props => <CustomInput {...props} />;
+
 export const TextArea: React.FC<TextAreaProps> = ({ label, ...props }) => {
 	return (
 		<Label>
 			{label}
 			<CustomTextArea {...props} />
 		</Label>
+	);
+};
+
+const CustomActionLabel = styled(Label)`
+	grid-template-columns: 1fr min-content;
+`;
+
+const CustomActionLabelText = styled.span`
+	grid-column: 1 / -1;
+`;
+
+const CustomActionInput = styled(CustomInput)`
+	border-radius: 4px 0 0 4px;
+	grid-column: 1;
+	height: 32px;
+`;
+
+const CustomActionInputButton = styled(FlatButton)`
+	border-radius: 0 4px 4px 0;
+	grid-column: 2;
+`;
+
+export const ActionInput: React.FC<InputProps & { onClick?: () => void }> = ({
+	label,
+	onClick,
+	children,
+	...props
+}) => {
+	return (
+		<CustomActionLabel>
+			<CustomActionLabelText>{label}</CustomActionLabelText>
+			<CustomActionInput {...props} />
+			<CustomActionInputButton onClick={onClick}>{children}</CustomActionInputButton>
+		</CustomActionLabel>
 	);
 };

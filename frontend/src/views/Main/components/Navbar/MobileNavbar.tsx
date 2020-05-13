@@ -69,6 +69,9 @@ export const MobileNavbar: React.FC = () => {
 					<NavbarElements.StyledLink isActive={false} onClick={() => onNavigate('/')}>
 						Sessions
 					</NavbarElements.StyledLink>
+					<NavbarElements.StyledLink isActive={false} onClick={() => onNavigate('/profile')}>
+						Profile
+					</NavbarElements.StyledLink>
 				</>
 			)}
 		</NavbarElements.Container>
