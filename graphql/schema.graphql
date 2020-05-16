@@ -2,6 +2,13 @@ interface Node {
     id: ID!
 }
 
+type PageInfo {
+    startCursor: String
+    endCursor: String
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+}
+
 type Language implements Node {
     id: ID!
     name: String!
@@ -13,7 +20,7 @@ type Languages {
     learning: Language!
 }
 
-type Card implements Node{
+type Card implements Node {
     id: ID!
     language: Languages!
     word: String!
@@ -21,12 +28,32 @@ type Card implements Node{
     note: String!
 }
 
+type CardEdge {
+    cursor: String!
+    node: Card!
+}
+
+type CardConnection {
+    pageInfo: PageInfo!
+    edges: [CardEdge!]!
+}
+
 type Deck implements Node {
     id: ID!
     title: String!
     createdAt: Float!
-    cards: [Card!]!
+    cards(after: String, before: String, first: Int, last: Int): CardConnection!
     cardsAmount: Int!
+}
+
+type DeckEdge {
+    cursor: String!
+    node: Deck!
+}
+
+type DeckConnection {
+    pageInfo: PageInfo!
+    edges: [DeckEdge!]!
 }
 
 type AppSettings {
@@ -53,15 +80,21 @@ input ChangeLanguageInput {
     learning: ID!
 }
 
+input CreateCardLanguageInput {
+    original: ID
+    learning: ID
+}
+
 input CreateCardInput {
     deckId: ID!
     word: String = ""
     translations: [String!] = []
+    language: CreateCardLanguageInput
     note: String = ""
 }
 
 type CreateCardPayload {
-    card: Card!
+    cardEdge: CardEdge!
 }
 
 input UpdateCardInput {
@@ -138,11 +171,11 @@ type RemoveLanguagePayload {
 
 type Query {
     user: User!
-    decks: [Deck!]!
+    decks(after: String, before: String, first: Int, last: Int): DeckConnection!
     deck(id: ID!): Deck!
     card(id: ID!): Card!
     studySession(id: ID!): StudySession!
-    node(id: ID!): Node!
+    node(id: ID): Node
 }
 
 type Mutation {

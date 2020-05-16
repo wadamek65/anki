@@ -4,9 +4,9 @@ import * as React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation } from 'react-relay/hooks';
 
-import { PageTitle } from '../../../../components/Typography';
-import { GridForm, Input, Select } from '../../../../components/Input';
-import { FlatButton } from '../../../../components/Button';
+import { PageTitle } from '../../../components/Typography';
+import { GridForm, Input, Select } from '../../../components/Input';
+import { FlatButton } from '../../../components/Button';
 import { Grid } from '../elements';
 import {
 	StartStudySessionInput,

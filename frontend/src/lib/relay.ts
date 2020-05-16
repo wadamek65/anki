@@ -1,11 +1,12 @@
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import { RelayNetworkLayer, authMiddleware } from 'react-relay-network-modern';
+import { RelayNetworkLayer, authMiddleware, cacheMiddleware } from 'react-relay-network-modern';
 import ky from 'ky';
 
 import { REFRESH_TOKEN_KEY } from '../views/Login';
 
 export const relayEnvironment = new Environment({
 	network: new RelayNetworkLayer([
+		cacheMiddleware(),
 		authMiddleware({
 			allowEmptyToken: true,
 			tokenRefreshPromise: async () => {

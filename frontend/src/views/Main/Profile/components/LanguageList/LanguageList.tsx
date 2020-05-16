@@ -5,7 +5,7 @@ import { SelectorStoreUpdater } from 'relay-runtime';
 import { useLazyLoadQuery, useMutation } from 'react-relay/hooks';
 import { useFormik } from 'formik';
 
-import { NoLabelInput } from '../../../../../../components/Input';
+import { NoLabelInput } from '../../../../../components/Input';
 import { LanguageListGetAppSettingsQuery } from './__generated__/LanguageListGetAppSettingsQuery.graphql';
 import { LanguageListRemoveLanguageMutation } from './__generated__/LanguageListRemoveLanguageMutation.graphql';
 import { LanguageListElements } from './elements';

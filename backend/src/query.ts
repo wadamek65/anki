@@ -21,8 +21,8 @@ const deck: Resolvers['deck'] = async (_parent, { id }, { email }) => {
 	return deck;
 };
 
-const decks: Resolvers['decks'] = async (_parent, _args, { email }) => {
-	const decks = await Deck.find({ owner: email });
+const decks: Resolvers['decks'] = async (_parent, paginationArgs, { email }) => {
+	const decks = await Deck.findConnections({ owner: email }, paginationArgs);
 	if (!decks) {
 		// TODO: Handle not found
 		return undefined as any;

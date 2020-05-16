@@ -1,10 +1,11 @@
+import { EnhancedDocument, EnhancedModel } from 'relay-mongoose';
 import * as mongoose from 'mongoose';
 
 import { Language } from './__generated__/resolvers';
 
 type LanguageDocument = Language & mongoose.Types.Subdocument;
 
-interface DocumentWithId extends mongoose.Document {
+interface DocumentWithId extends EnhancedDocument {
 	id: string;
 }
 
@@ -33,12 +34,13 @@ const cardSchema = new mongoose.Schema({
 	note: { type: String, default: '' }
 });
 
-interface DeckSchema extends DocumentWithId {
+export interface DeckSchema extends DocumentWithId {
 	title: string;
 	owner: string;
 	createdAt: number;
 	cards: mongoose.Schema.Types.ObjectId[];
 }
+
 const deckSchema = new mongoose.Schema({
 	title: { type: String, default: '' },
 	owner: { type: String, required: true },
@@ -107,8 +109,13 @@ const userSchema = new mongoose.Schema({
 	}
 });
 
-export const User: mongoose.Model<UserSchema> = mongoose.models.user || mongoose.model('user', userSchema);
-export const Deck: mongoose.Model<DeckSchema> = mongoose.models.deck || mongoose.model('deck', deckSchema);
-export const Card: mongoose.Model<CardSchema> = mongoose.models.card || mongoose.model('card', cardSchema);
-export const Session: mongoose.Model<SessionSchema> =
-	mongoose.models.session || mongoose.model('session', sessionSchema);
+userSchema.loadClass(EnhancedModel);
+deckSchema.loadClass(EnhancedModel);
+cardSchema.loadClass(EnhancedModel);
+sessionSchema.loadClass(EnhancedModel);
+
+export const User: EnhancedModel<UserSchema> = (mongoose.models.user as any) || mongoose.model('user', userSchema);
+export const Deck: EnhancedModel<DeckSchema> = (mongoose.models.deck as any) || mongoose.model('deck', deckSchema);
+export const Card: EnhancedModel<CardSchema> = (mongoose.models.card as any) || mongoose.model('card', cardSchema);
+export const Session: EnhancedModel<SessionSchema> =
+	(mongoose.models.session as any) || mongoose.model('session', sessionSchema);

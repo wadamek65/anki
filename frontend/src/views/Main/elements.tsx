@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-import { List } from '../../../components';
-import { grid } from '../../../lib/styles';
+import { List } from '../../components';
+import { grid } from '../../lib/styles';
 
 export const Grid = styled.div(
 	({ theme }) => css`

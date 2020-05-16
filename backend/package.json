@@ -21,7 +21,8 @@
     "graphql": "^15.0.0",
     "graphql-import": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.12"
+    "mongoose": "^5.9.12",
+    "relay-mongoose": "^0.2.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.5",

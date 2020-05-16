@@ -15,7 +15,9 @@ export const Main: React.FC = () => {
 	return (
 		<ErrorBoundary>
 			<MobileNavbar />
-			<Outlet />
+			<React.Suspense fallback={<div>Loading ...</div>}>
+				<Outlet />
+			</React.Suspense>
 		</ErrorBoundary>
 	);
 };

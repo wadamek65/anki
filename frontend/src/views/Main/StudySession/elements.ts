@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { FlatButton } from '../../../../components/Button';
+import { FlatButton } from '../../../components/Button';
 
 const Container = styled.div`
 	display: grid;
