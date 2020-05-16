@@ -38,13 +38,16 @@ const UserData: React.FC = () => {
 
 export const MobileNavbar: React.FC = () => {
 	const navigate = useNavigate();
-	const [isExpanded, setIsExpanded] = React.useState(false);
+	const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
+	const [startTransition] = React.useTransition({ timeoutMs: 500 });
 
 	const hideDropdown = (): void => setIsExpanded(false);
 
 	const onNavigate = (to: string) => {
 		hideDropdown();
-		navigate(to);
+		startTransition(() => {
+			navigate(to);
+		});
 	};
 
 	return (

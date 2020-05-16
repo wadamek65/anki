@@ -3,20 +3,21 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import { importSchema } from 'graphql-import';
+import { PaginationArgs } from 'relay-mongoose';
 
 import * as config from '../config.json';
-import { DeckResolvers, LanguageResolvers } from './__generated__/resolvers';
+import { LanguageResolvers } from './__generated__/resolvers';
+import { authMiddleware, loginRoute, refreshTokenRoute } from './auth';
 import { Mutation } from './mutation';
 import { Query } from './query';
-import { authMiddleware, loginRoute, refreshTokenRoute } from './auth';
-import { Card, UserSchema } from './schemas';
+import { Card, DeckSchema, UserSchema } from './schemas';
 
-const Deck: DeckResolvers = {
-	cardsAmount(parent) {
+const Deck = {
+	cardsAmount(parent: DeckSchema): number {
 		return parent.cards.length;
 	},
-	async cards(parent) {
-		return Card.find({ _id: { $in: parent.cards } }) as any;
+	async cards(parent: DeckSchema, paginationArgs: PaginationArgs) {
+		return Card.findConnections({ _id: { $in: parent.cards } }, paginationArgs);
 	}
 };
 

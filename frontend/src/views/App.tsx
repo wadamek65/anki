@@ -7,10 +7,11 @@ import { relayEnvironment } from '../lib/relay';
 import { theme } from '../lib/theme';
 import { Login } from './Login';
 import { Main } from './Main';
-import { Card, Deck, DeckList } from './Main/views';
-import { Study } from './Main/views/Study';
-import { StudySession } from './Main/views/StudySession';
-import { Profile } from './Main/views/Profile';
+import { Deck } from './Main/Deck';
+import { DeckList } from './Main/DeckList';
+import { Study } from './Main/Study';
+import { StudySession } from './Main/StudySession';
+import { Profile } from './Main/Profile';
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
@@ -56,7 +57,6 @@ export const App: React.FC = () => {
 								<Route path="profile" element={<Profile />} />
 								<Route path="decks" element={<DeckList />} />
 								<Route path="decks/:deckId/*" element={<Deck />} />
-								<Route path="decks/:deckId/cards/:cardId" element={<Card />} />
 								<Route path="study/:deckId" element={<Study />} />
 								<Route path="study/session/:sessionId" element={<StudySession />} />
 							</Route>

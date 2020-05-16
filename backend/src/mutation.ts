@@ -7,7 +7,7 @@ const createCard: Resolvers['createCard'] = async (parent, { input }, { email })
 	const { deckId, ...card } = input;
 	const newCard = await new Card({ ...card, owner: email }).save();
 	await Deck.updateOne({ _id: deckId, owner: email }, { $push: { cards: newCard._id } });
-	return { card: newCard } as any;
+	return { cardEdge: { cursor: Buffer.from(newCard.id).toString('base64'), node: newCard } } as any;
 };
 
 const createDeck: Resolvers['createDeck'] = async (parent, { input }, { email }) => {
@@ -19,9 +19,10 @@ const createDeck: Resolvers['createDeck'] = async (parent, { input }, { email })
 
 const updateCard: Resolvers['updateCard'] = async (parent, { input }, { email }) => {
 	const { cardId, ...card } = input;
-	const updatedCard = await Card.findOneAndUpdate({ _id: cardId, owner: email }, card);
+	await Card.updateOne({ _id: cardId, owner: email }, card);
 	// TODO: handle not found
-	return { card: updatedCard } as any;
+	const newCard = await Card.findById(cardId);
+	return { card: newCard } as any;
 };
 
 const startStudySession: Resolvers['startStudySession'] = async (parent, { input }, { email }) => {

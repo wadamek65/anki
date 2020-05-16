@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 
 import { Grid } from '../elements';
-import { PageTitle } from '../../../../components/Typography';
-import { OutlinedButton } from '../../../../components/Button';
+import { PageTitle } from '../../../components/Typography';
+import { OutlinedButton } from '../../../components/Button';
 import { StudySessionGetStudySessionQuery } from './__generated__/StudySessionGetStudySessionQuery.graphql';
 import { Test } from './elements';
 
@@ -16,9 +16,7 @@ const useStudySession = (id: string) => {
 		graphql`
 			query StudySessionGetStudySessionQuery($id: ID!) {
 				studySession(id: $id) {
-					#					derivedDeckId
 					penalty
-					#					startedAt
 					questions {
 						cardId
 						answersLeft
@@ -34,7 +32,6 @@ const useStudySession = (id: string) => {
 						}
 						translations
 						word
-						#						note
 					}
 				}
 			}

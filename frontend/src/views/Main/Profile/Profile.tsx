@@ -4,8 +4,8 @@ import { useMutation } from 'react-relay/hooks';
 import { SelectorStoreUpdater } from 'relay-runtime';
 
 import { Grid } from '../elements';
-import { PageTitle } from '../../../../components/Typography';
-import { ActionInput } from '../../../../components/Input';
+import { PageTitle } from '../../../components/Typography';
+import { ActionInput } from '../../../components/Input';
 import { ProfileAddLanguageMutation } from './__generated__/ProfileAddLanguageMutation.graphql';
 import { LanguageList } from './components/LanguageList';
 
